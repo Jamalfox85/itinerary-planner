@@ -2,12 +2,12 @@
   <div class="page-panel location-panel">
     <div class="location-group">
       <h1 class="panel-label">Where the <img src="../../assets/images/ducks/love-duck.png" alt="Duck" class="main-mood-duck-img" />are you?</h1>
-      <n-spin v-if="loadingLocation" size="small" />
-      <h2 class="selected-location" v-if="locationLabel !== ''">{{ locationLabel }}</h2>
+      <!-- <n-spin v-if="loadingLocation" size="small" /> -->
     </div>
+    <h2 class="location-label">Location: {{ locationLabel }}</h2>
     <div class="search-form">
       <input type="text" v-model="searchInput" class="search-input fancy-text" placeholder="Search Your City" />
-      <button class="loc-bttn" @click="getCurrentCoordinates"><font-awesome-icon :icon="['fas', 'location-crosshairs']" /></button>
+      <!-- <button class="loc-bttn" @click="getCurrentCoordinates"><font-awesome-icon :icon="['fas', 'location-crosshairs']" /></button> -->
     </div>
     <n-list class="search-result-list">
       <n-list-item class="result-item" v-for="result in searchResults" @click="handleCityClick(result)">
@@ -95,8 +95,11 @@ export default {
 .location-panel {
   display: flex;
   flex-direction: column;
+  width: 60%;
+  min-width: 500px;
   min-height: 100vh;
   padding: 0 2em;
+  margin-left: auto;
   .panel-label {
     margin: 2em auto 1em auto;
     font-size: 4em;
@@ -120,11 +123,15 @@ export default {
       text-decoration: underline;
     }
   }
+  .location-label {
+    font-size: 2em;
+    margin-left: 2em;
+  }
   .search-form {
     display: flex;
     align-items: center;
     .search-input {
-      margin: 2em;
+      margin: 1em 2em;
       flex-grow: 1;
       padding: 12px;
       border: none;

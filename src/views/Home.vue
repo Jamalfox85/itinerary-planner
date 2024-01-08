@@ -13,7 +13,7 @@
       </div>
       <a href="https://www.vecteezy.com/free-png/angry-duck" class="attribution">Angry Duck PNGs by Vecteezy</a>
     </div>
-    <location-panel />
+    <location-panel id="location-panel" ref="locationSlide" />
     <mood-panel />
     <schedule-panel />
   </div>
@@ -51,10 +51,6 @@ export default {
       let yRatio = mouseY / clientH - 0.5;
       this.duckOffset.x = 35 * xRatio;
       this.duckOffset.y = 35 * yRatio;
-      // this.duckOffset = {
-      //   x: 35 * xRatio,
-      //   y: 35 * yRatio,
-      // };
     },
     hoverDoItMyself() {
       this.primaryHeaderColor = "#d03050";
@@ -72,6 +68,7 @@ export default {
       console.log("ping");
       this.moodSlide = true;
       this.$refs.duckImg2.style.display = "block";
+      this.$refs.locationSlide.$el.scrollIntoView({ behavior: "smooth" });
     },
     goToAssessment() {
       this.$router.push("/assessment");
@@ -112,7 +109,7 @@ export default {
       }
       .moveDuckToNextSlide {
         transition: 0.9s ease-in;
-        animation: anim-duckdropin 2.25s forwards;
+        animation: anim-duckdropin 0.75s forwards;
       }
     }
     .bttn-row {

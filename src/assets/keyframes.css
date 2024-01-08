@@ -52,12 +52,6 @@
     position: absolute;
     height: 4em;
   }
-  10% {
-    transform: translateY(2em) translateX(-5%);
-  }
-  15% {
-    transform: translateY(4em) translateX(0);
-  }
   20% {
     transform: translateY(1em) translateX(0);
   }

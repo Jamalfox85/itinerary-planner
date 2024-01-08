@@ -2,7 +2,7 @@ import OpenAI from "openai";
 
 const openai = new OpenAI({
   organization: "org-k3NzgrklwfB5mXe4xFrw5vsI",
-  apiKey: "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",
+  apiKey: "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",
   dangerouslyAllowBrowser: true,
 });
 
@@ -17,7 +17,7 @@ async function getItineraryResponse(location, mood) {
       { role: "system", content: "These activities should be grouped by time of day in the following format: 2 in the morning, 3 in the afternoon, 3 in the evening, and 2 at night" },
       { role: "system", content: "Please format the response into a JSON array in the following format: [{timeOfDay: 'morning', activities: [{label: title, details: details}, {label: title, details: details}]}] " },
       { role: "system", content: "You should only respond with the JSON object." },
-      { role: "user", content: `I'm planning on visiting ${location} and my mood is ${mood}. What should I do the first day I'm there` },
+      { role: "user", content: `I'm planning on visiting ${location} and I'm in the mood for ${mood}. What should I do the first day I'm there` },
     ],
     model: "gpt-3.5-turbo",
   });

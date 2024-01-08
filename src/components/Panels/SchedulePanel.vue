@@ -1,9 +1,11 @@
 <template lang="">
   <div class="page-panel schedule-panel">
     <h1 class="panel-label">Here are your <img src="../../assets/images/ducks/tongue-duck.png" alt="Duck" class="main-mood-duck-img" />-ing recommendations for today:</h1>
-    <div class="results">
+    <n-button v-if="!showResults" type="primary" @click="loadItineraryResults" style="width: fit-content; margin: 0 auto">Get My Results</n-button>
+    <div v-else class="results">
       <div class="activities_wrapper">
         <h2>Activities</h2>
+        <n-spin v-if="itinerarySegments.length == 0" />
         <n-collapse>
           <n-collapse-item :title="segment.timeOfDay + ` (${segment.activities.length})`" :name="index" v-for="(segment, index) in itinerarySegments">
             <div v-for="activity in segment.activities">
@@ -17,12 +19,14 @@
         <h2>
           Restaurants<span @click="getRestaurantOptions"><font-awesome-icon :icon="['fa', 'refresh']" /></span>
         </h2>
-
+        <n-spin v-if="restaurantResults.length == 0" />
         <n-collapse>
           <n-collapse-item :title="restaurant.poi.name" :name="index" v-for="(restaurant, index) in randomizeRestaurantResults(restaurantResults)">
             <p v-if="restaurant.address.freeformAddress">Address: {{ restaurant.address.freeformAddress }}</p>
             <p v-if="restaurant.poi.phone">Phone: {{ restaurant.poi.phone }}</p>
-            <p v-if="restaurant.poi.url">Website: {{ restaurant.poi.url }}</p>
+            <p v-if="restaurant.poi.url">
+              Website: <a :href="restaurant.poi.url">{{ restaurant.poi.url }}</a>
+            </p>
             <template #header-extra>
               <div style="display: flex">
                 <n-tag type="info" style="text-transform: capitalize" v-for="category in filteredCategories(restaurant.poi.categories)">{{ category }}</n-tag>
@@ -41,15 +45,16 @@ import { useFetch } from "@vueuse/core";
 import { getMoodPoiCodes } from "../../stores/moodPoiCodes.js";
 import { persistentStore } from "../../stores/PersistentStorage.js";
 import { getItineraryResponse } from "../../services/openai_service.js";
-import { NCollapse, NCollapseItem, NTag } from "naive-ui";
+import { NCollapse, NCollapseItem, NTag, NSpin } from "naive-ui";
 export default {
-  components: { NButton, NCollapse, NCollapseItem, NTag },
+  components: { NButton, NCollapse, NCollapseItem, NTag, NSpin },
   data() {
     return {
       codes: [],
       itinerarySegments: [],
       restaurantResults: [],
       totalRestaurantResults: null,
+      showResults: false,
     };
   },
   setup() {
@@ -57,76 +62,12 @@ export default {
     let getItinerary = getItineraryResponse;
     return { store, getItinerary };
   },
-  async mounted() {
-    let moodId = this.store.getMoodId;
-    let cityName = this.store.getCityName;
-    // this.getGPTItineraryResponse(cityName);
-    this.getRestaurantOptions();
-    this.itinerarySegments = [
-      {
-        timeOfDay: "morning",
-        activities: [
-          {
-            label: "Morning Hike at Torrey Pines State Natural Reserve",
-            details: "Embark on a scenic hiking trail along the coastline, enjoying breathtaking views of the ocean and unique geological formations.",
-          },
-          {
-            label: "Kayaking at La Jolla Cove",
-            details: "Explore the stunning underwater world and observe marine wildlife such as seals, sea lions, and bright orange Garibaldi fish on a kayaking adventure in La Jolla Cove.",
-          },
-        ],
-      },
-      {
-        timeOfDay: "afternoon",
-        activities: [
-          {
-            label: "Visit USS Midway Museum",
-            details: "Board the aircraft carrier museum that showcases the history of USS Midway, explore the various aircraft on display, and learn about naval aviation.",
-          },
-          {
-            label: "Go Surfing at Pacific Beach",
-            details: "Catch some waves and experience the thrill of surfing at Pacific Beach, known for its reliable surf breaks and vibrant beach atmosphere.",
-          },
-          {
-            label: "Bike Ride along Mission Bay",
-            details: "Rent a bike and enjoy a leisurely ride along the scenic paths surrounding Mission Bay, taking in the beautiful views of the water and park areas.",
-          },
-        ],
-      },
-      {
-        timeOfDay: "evening",
-        activities: [
-          {
-            label: "Sunset Cliffs Natural Park",
-            details: "Head to Sunset Cliffs Natural Park to witness a breathtaking sunset over the rugged coastline. Take a relaxing walk along the cliffside trails.",
-          },
-          {
-            label: "Balboa Park",
-            details: "Explore the beautiful Balboa Park, home to numerous gardens, museums, and the world-renowned San Diego Zoo. Enjoy a picnic or visit one of the cultural exhibits.",
-          },
-          {
-            label: "Gaslamp Quarter",
-            details: "Immerse yourself in the vibrant nightlife of the Gaslamp Quarter. Explore the eclectic mix of bars, restaurants, and live entertainment options.",
-          },
-        ],
-      },
-      {
-        timeOfDay: "night",
-        activities: [
-          {
-            label: "San Diego Padres Game",
-            details: "Experience the thrill of a baseball game at Petco Park, home of the San Diego Padres. Cheer on the team and enjoy the lively atmosphere of the stadium.",
-          },
-          {
-            label: "Harbor Cruise",
-            details: "Embark on a relaxing harbor cruise and admire the city skyline lit up at night. Enjoy the breathtaking views of the San Diego Bay and iconic landmarks.",
-          },
-        ],
-      },
-    ];
-    console.log(this.itinerarySegments);
-  },
   methods: {
+    loadItineraryResults() {
+      this.showResults = true;
+      this.getGPTItineraryResponse(this.store.getCityName);
+      this.getRestaurantOptions();
+    },
     async getGPTItineraryResponse(cityName) {
       console.log("GPT LOCATION: ", cityName);
       let itineraryObject = await this.getItinerary(cityName, "adventure");
