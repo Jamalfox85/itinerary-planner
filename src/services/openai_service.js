@@ -24,7 +24,7 @@ async function getItineraryResponse(location, mood) {
 
   // let itineraryResponse = completion.choices[0].message.content;
   // return JSON.parse(itineraryResponse);
-  let testing = import.meta.env.VITE_TEST;
+  let testing = import.meta.env.VITE_VERCEL;
   console.log(testing);
 }
 
