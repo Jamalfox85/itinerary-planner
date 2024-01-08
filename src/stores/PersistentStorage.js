@@ -18,23 +18,18 @@ export const persistentStore = defineStore("persistent", {
   actions: {
     setAccessToken(token) {
       this.accessToken = token;
-      console.log("access token: ", token);
     },
     setMoodId(id) {
       this.moodId = id;
-      console.log("mood id: ", id);
     },
     setCityName(city) {
       this.cityName = city;
-      console.log("city: ", city);
     },
     setLocation(lat, long) {
       this.location = { lat, long };
-      console.log("location: ", lat, long);
     },
     setBusinessCodes(codes) {
       this.businessCodes = codes;
-      console.log("business codes: ", codes);
     },
   },
 });

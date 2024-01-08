@@ -65,7 +65,6 @@ export default {
       this.duckImg = "normal-duck";
     },
     nextSlide() {
-      console.log("ping");
       this.moodSlide = true;
       this.$refs.duckImg2.style.display = "block";
       this.$refs.locationSlide.$el.scrollIntoView({ behavior: "smooth" });

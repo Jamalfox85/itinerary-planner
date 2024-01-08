@@ -45,7 +45,6 @@ export default {
     let apiKey = "CGtqpWKnAEW1T3B1bAjfBfqvpi9zoMay";
     await useFetch(`https://api.tomtom.com/search/2/poiCategories.json?key=${apiKey}`).then(async (response) => {
       let apiResponse = JSON.parse(response.data.value);
-      // console.log("CATEGORIES: ", apiResponse.poiCategories);
       apiResponse.poiCategories.forEach((item) => {
         this.categoryOptions.push({
           label: item.name,

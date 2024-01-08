@@ -96,7 +96,6 @@ export default {
     },
     async findNearbyBusinesses() {
       let categories = await this.store.getCategories;
-      // console.log("SEARCHING CATS: ", categories.join(", "));
       let baseURL = "api.tomtom.com";
       let versionNumber = 2;
       let ext = "json";

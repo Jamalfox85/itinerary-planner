@@ -1,9 +1,9 @@
 <template lang="">
   <div class="topbar_wrapper">
-    <div class="logo">
+    <!-- <div class="logo">
       <font-awesome-icon :icon="['fas', 'city']" />
       <h2 class="logo-text" @click="navToHome">City Explorer</h2>
-    </div>
+    </div> -->
   </div>
 </template>
 <script>

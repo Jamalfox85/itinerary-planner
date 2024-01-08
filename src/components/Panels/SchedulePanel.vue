@@ -25,7 +25,7 @@
             <p v-if="restaurant.address.freeformAddress">Address: {{ restaurant.address.freeformAddress }}</p>
             <p v-if="restaurant.poi.phone">Phone: {{ restaurant.poi.phone }}</p>
             <p v-if="restaurant.poi.url">
-              Website: <a :href="restaurant.poi.url">{{ restaurant.poi.url }}</a>
+              Website: <a :href="'https://' + restaurant.poi.url">{{ restaurant.poi.url }}</a>
             </p>
             <template #header-extra>
               <div style="display: flex">
@@ -69,10 +69,8 @@ export default {
       this.getRestaurantOptions();
     },
     async getGPTItineraryResponse(cityName) {
-      console.log("GPT LOCATION: ", cityName);
-      let itineraryObject = await this.getItinerary(cityName, "adventure");
+      let itineraryObject = await this.getItinerary(cityName, this.store.moodId);
       this.itinerarySegments = itineraryObject;
-      console.log("JSON: ", itineraryObject);
     },
     randomizeRestaurantResults(restaurants) {
       let randomNums = Array.from({ length: 5 }, () => Math.floor(Math.random() * 100));
@@ -90,9 +88,7 @@ export default {
       let restaurants = await useFetch(`https://api.tomtom.com/search/2/nearbySearch/.json?key=${apiKey}&lat=${location.lat}&lon=${location.long}&categorySet=${categorySet}&limit=${limit}&ofs=${offset}`).then((results) => {
         let jsonResponse = JSON.parse(results.data.value);
         let totalResults = jsonResponse.summary.totalResults;
-        console.log("TOTAL RESULTS: ", totalResults);
         let resultArray = jsonResponse.results;
-        console.log("RESULTS: ", resultArray);
         this.restaurantResults = resultArray;
       });
     },

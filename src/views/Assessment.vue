@@ -24,7 +24,6 @@ export default {
   },
   methods: {
     loadNextPanel(panel) {
-      console.log(panel);
       if (panel == "location") {
         this.displayMoodPanel = true;
       } else if (panel == "mood") {
@@ -68,7 +67,6 @@ export default {
       let results = [];
       categories.forEach(async (category) => {
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        console.log("ping");
         let codes = [...category.codes];
         let limit = category.numResults;
         await useFetch(`https://${baseURL}/search/${versionNumber}/nearbySearch/.${ext}?key=${apiKey}&lat=${lat}&lon=${lon}&radius=${radius}&limit=${limit}&ofs=${ofs}&countrySet=${countrySet}&categorySet=${codes}&openingHours=${openingHours}&timeZone=${timezone}&mapcodes=${mapcodes}&relatedPois=${relatedpois}`).then(async (response) => {
