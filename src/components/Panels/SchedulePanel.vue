@@ -57,6 +57,9 @@ export default {
       showResults: false,
     };
   },
+  mounted() {
+    this.getGPTItineraryResponse();
+  },
   setup() {
     let store = persistentStore();
     let getItinerary = getItineraryResponse;
