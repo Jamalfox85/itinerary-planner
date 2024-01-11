@@ -56,8 +56,9 @@ export default {
           Authorization: `Bearer ${this.store.getAccessToken}`,
         },
       }).then((response) => {
-        let results = JSON.parse(response.data.value);
-        this.searchResults = results.data;
+        let results = JSON.parse(response.data.value).data;
+        let filterredResults = results.filter((result) => result.address.stateCode);
+        this.searchResults = filterredResults;
       });
     },
     handleSubmit() {
