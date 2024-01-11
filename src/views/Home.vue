@@ -13,8 +13,8 @@
       </div>
       <a href="https://www.vecteezy.com/free-png/angry-duck" class="attribution">Angry Duck PNGs by Vecteezy</a>
     </div>
-    <location-panel id="location-panel" ref="locationSlide" />
-    <mood-panel />
+    <location-panel id="location-panel" ref="locationSlide" @scrollToMoodSlide="scrollToMoodSlide" />
+    <mood-panel id="mood-panel" ref="moodSlide" />
     <schedule-panel />
   </div>
 </template>
@@ -71,6 +71,9 @@ export default {
     },
     goToAssessment() {
       this.$router.push("/assessment");
+    },
+    scrollToMoodSlide() {
+      this.$refs.moodSlide.$el.scrollIntoView({ behavior: "smooth" });
     },
   },
 };

@@ -4,7 +4,10 @@
       <h1 class="panel-label">Where the <img src="../../assets/images/ducks/love-duck.png" alt="Duck" class="main-mood-duck-img" />are you?</h1>
       <!-- <n-spin v-if="loadingLocation" size="small" /> -->
     </div>
-    <h2 class="location-label">Location: {{ locationLabel }}</h2>
+    <div class="label-and-submit">
+      <h2 class="location-label">Location: {{ locationLabel }}</h2>
+      <n-button type="success" @click="handleSubmit">Submit</n-button>
+    </div>
     <div class="search-form">
       <input type="text" v-model="searchInput" class="search-input fancy-text" placeholder="Search Your City" />
       <!-- <button class="loc-bttn" @click="getCurrentCoordinates"><font-awesome-icon :icon="['fas', 'location-crosshairs']" /></button> -->
@@ -30,6 +33,7 @@ export default {
       locationLabel: "",
       loadingLocation: false,
       searchResults: [],
+      city: null,
     };
   },
   setup() {
@@ -56,11 +60,15 @@ export default {
         this.searchResults = results.data;
       });
     },
+    handleSubmit() {
+      this.$emit("scrollToMoodSlide");
+      this.store.setCityName(this.locationLabel + ", " + this.city.address.countryCode);
+      this.store.setLocation(this.city.geoCode.latitude, this.city.geoCode.longitude);
+    },
     handleCityClick(city) {
       let location = city.geoCode;
       this.locationLabel = city.name;
-      this.store.setCityName(this.locationLabel + ", " + city.address.countryCode);
-      this.store.setLocation(city.geoCode.latitude, city.geoCode.longitude);
+      this.city = city;
     },
     getCurrentCoordinates() {
       this.loadingLocation = true;
@@ -113,6 +121,12 @@ export default {
       height: 4em;
       margin: 0 1.25em;
     }
+  }
+  .label-and-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2em 0 0;
   }
   .location-group {
     display: flex;

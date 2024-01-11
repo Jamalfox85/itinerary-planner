@@ -25,7 +25,7 @@
             <p v-if="restaurant.address.freeformAddress">Address: {{ restaurant.address.freeformAddress }}</p>
             <p v-if="restaurant.poi.phone">Phone: {{ restaurant.poi.phone }}</p>
             <p v-if="restaurant.poi.url">
-              Website: <a :href="'https://' + restaurant.poi.url">{{ restaurant.poi.url }}</a>
+              Website: <a :href="'https://' + restaurant.poi.url" target="_blank">{{ restaurant.poi.url }}</a>
             </p>
             <template #header-extra>
               <div style="display: flex">
