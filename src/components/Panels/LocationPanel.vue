@@ -63,8 +63,7 @@ export default {
     },
     handleSubmit() {
       this.$emit("scrollToMoodSlide");
-      this.store.setCityName(this.locationLabel + ", " + this.city.address.countryCode);
-      this.store.setLocation(this.city.geoCode.latitude, this.city.geoCode.longitude);
+      this.store.setLocation(this.city.geoCode.latitude, this.city.geoCode.longitude, this.city.name, this.city.address.countryCode);
     },
     handleCityClick(city) {
       let location = city.geoCode;

@@ -1,7 +1,8 @@
 <template lang="">
   <div class="page-panel schedule-panel">
     <h1 class="panel-label">Here are your <img src="../../assets/images/ducks/tongue-duck.png" alt="Duck" class="main-mood-duck-img" />-ing recommendations for today:</h1>
-    <n-button v-if="!showResults" type="primary" @click="loadItineraryResults" style="width: fit-content; margin: 0 auto">Get My Results</n-button>
+    <n-button v-if="!showResults" type="primary" @click="navToDashboard" style="width: fit-content; margin: 0 auto">Get My Results</n-button>
+    <!-- <n-button v-if="!showResults" type="primary" @click="loadItineraryResults" style="width: fit-content; margin: 0 auto">Get My Results</n-button> -->
     <div v-else class="results">
       <div class="activities_wrapper">
         <h2>Activities</h2>
@@ -63,9 +64,12 @@ export default {
     return { store, getItinerary };
   },
   methods: {
+    navToDashboard() {
+      this.$router.push("/dashboard");
+    },
     loadItineraryResults() {
       this.showResults = true;
-      this.getGPTItineraryResponse(this.store.getCityName);
+      this.getGPTItineraryResponse(this.store.getLocation.cityName);
       this.getRestaurantOptions();
     },
     async getGPTItineraryResponse(cityName) {
