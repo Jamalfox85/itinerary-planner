@@ -3,8 +3,8 @@
     <Itinerary class="itinerary" />
     <div class="info-blocks"></div>
     <div class="etiquette"></div>
-    <div class="weather"></div>
-    <div class="currency-conversion"></div>
+    <Weather class="weather" />
+    <CurrencyConversion class="currency-conversion" />
     <div class="public-transportation-info"></div>
     <Restaurants class="restaurants" />
     <TimeZone class="time-zone-converter" />
@@ -16,9 +16,11 @@ import { NButton } from "naive-ui";
 import Itinerary from "../components/Itinerary.vue";
 import Restaurants from "../components/Restaurants.vue";
 import TimeZone from "../components/TimeZone.vue";
+import Weather from "../components/Weather.vue";
+import CurrencyConversion from "../components/Currency.vue";
 
 export default {
-  components: { NButton, Itinerary, Restaurants, TimeZone },
+  components: { NButton, Itinerary, Restaurants, TimeZone, Weather, CurrencyConversion },
 };
 </script>
 
@@ -48,12 +50,10 @@ export default {
     grid-column: 2/3;
   }
   .currency-conversion {
-    background-color: purple;
     grid-row: 2/3;
     grid-column: 3/4;
   }
   .weather {
-    background-color: red;
     grid-row: 4/5;
     grid-column: 2/3;
   }
