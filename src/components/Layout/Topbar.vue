@@ -19,12 +19,13 @@ export default {
 .topbar_wrapper {
   height: 40px;
   width: 100%;
-  position: absolute;
+  position: relative;
   z-index: 2;
   display: flex;
   align-items: center;
   color: #000;
   padding: 0 2em;
+  display: none;
   .logo {
     margin-right: auto;
     font-weight: bold;

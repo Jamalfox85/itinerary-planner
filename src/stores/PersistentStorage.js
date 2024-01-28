@@ -20,8 +20,13 @@ export const persistentStore = defineStore("persistent", {
     setMoodId(id) {
       this.moodId = id;
     },
-    setLocation(lat, long, cityName, countryCode) {
-      this.location = { lat, long, cityName, countryCode };
+    setLocation(selectedLocation) {
+      this.location = {
+        lat: selectedLocation.coordinates.latitude,
+        long: selectedLocation.coordinates.longitude,
+        cityName: selectedLocation.name,
+        countryCode: selectedLocation.countryCode,
+      };
     },
     setBusinessCodes(codes) {
       this.businessCodes = codes;
