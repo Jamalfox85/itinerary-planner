@@ -49,12 +49,13 @@ export default {
       lat: 33.7488,
       long: -84.3877,
     };
-    let restaurants = await useFetch(`https://api.tomtom.com/search/2/nearbySearch/.json?key=${apiKey}&lat=${location.lat}&lon=${location.long}&categorySet=${categorySet}&limit=${limit}&ofs=${offset}`).then((results) => {
-      let jsonResponse = JSON.parse(results.data.value);
-      let totalResults = jsonResponse.summary.totalResults;
-      let resultArray = jsonResponse.results;
-      this.restaurantResults = resultArray;
-    });
+    let restaurants = [];
+    // let restaurants = await useFetch(`https://api.tomtom.com/search/2/nearbySearch/.json?key=${apiKey}&lat=${location.lat}&lon=${location.long}&categorySet=${categorySet}&limit=${limit}&ofs=${offset}`).then((results) => {
+    //   let jsonResponse = JSON.parse(results.data.value);
+    //   let totalResults = jsonResponse.summary.totalResults;
+    //   let resultArray = jsonResponse.results;
+    //   this.restaurantResults = resultArray;
+    // });
     this.updateDisplayedRestaurants();
   },
   methods: {
