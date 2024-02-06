@@ -28,9 +28,9 @@
     </div>
     <hr />
     <div class="confirm-buttons">
-      <n-button type="error">Delete Profile</n-button>
+      <n-button type="error" @click="deleteProfile">Delete Profile</n-button>
       <n-button type="tertiary" @click="setDefaults">Revert Changes</n-button>
-      <n-button type="success">Save Changes</n-button>
+      <n-button type="success" @click="saveChanges">Save Changes</n-button>
     </div>
   </div>
 </template>
@@ -54,6 +54,12 @@ export default {
       this.lastName = this.originalLastName;
       this.email = this.originalEmail;
       this.password = this.originalPassword;
+    },
+    deleteProfile() {
+      console.log("DELETE PROFILE");
+    },
+    saveChanges() {
+      console.log("SAVE CHANGES");
     },
   },
   watch: {

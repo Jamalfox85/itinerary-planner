@@ -17,6 +17,10 @@ library.add(fab);
 library.add(fas);
 library.add(far);
 
+import { createDiscreteApi } from "naive-ui";
+const { message } = createDiscreteApi(["message"]);
+window.$message = message;
+
 const app = createApp(App).component("font-awesome-icon", FontAwesomeIcon);
 
 app.use(createPinia());

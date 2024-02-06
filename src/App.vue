@@ -26,9 +26,9 @@ onMounted(async () => {
 </script>
 
 <template>
-  <header class="app_header">
+  <!-- <header class="app_header">
     <Topbar />
-  </header>
+  </header> -->
 
   <RouterView class="app_router_view" />
 </template>
