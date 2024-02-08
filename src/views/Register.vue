@@ -36,7 +36,7 @@
         </div>
       </div>
       <n-button color="#d90368" class="sign-up-bttn" :disabled="!formValidated" @click="registerUser">Sign Up</n-button>
-      <p class="switch-to-login">Already have an account? <span class="login-span">Log in here!</span></p>
+      <p class="switch-to-login">Already have an account? <span class="login-span" @click="navToLogin">Log in here!</span></p>
     </div>
     <!-- <button @click="registerUser">Sign Up</button> -->
   </div>
@@ -122,10 +122,14 @@ export default {
         .json();
       if (data.value !== null) {
         window.$message.success(data.value.message);
+        window.location = "/dashboard";
       }
       if (error.value !== null) {
         window.$message.error("This email already exists.");
       }
+    },
+    navToLogin() {
+      window.location = "/login";
     },
   },
 };

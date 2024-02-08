@@ -5,7 +5,7 @@
       <h2 class="logo-text" @click="navToHome">City Explorer</h2>
     </div>
     <div class="profile-group">
-      <p class="profile-name">Jamal Fox</p>
+      <p class="profile-name">{{ userData?.firstName }} {{ userData?.lastName }}</p>
       <n-dropdown :options="profileOptions" trigger="hover" @select="handleProfileOptionClick">
         <div class="portrait-bubble">
           <font-awesome-icon :icon="['fas', 'user']" class="user-icon" />
@@ -15,6 +15,7 @@
   </div>
 </template>
 <script>
+import { persistentStore } from "../../stores/PersistentStorage.js";
 import { NDropdown } from "naive-ui";
 export default {
   components: { NDropdown },
@@ -37,6 +38,15 @@ export default {
         this.$router.push("/profile");
       }
     },
+  },
+  computed: {
+    userData() {
+      return this.store.getUserData;
+    },
+  },
+  setup() {
+    const store = persistentStore();
+    return { store };
   },
 };
 </script>
