@@ -36,7 +36,6 @@ export const persistentStore = defineStore("persistent", {
         .then((response) => {
           window.$message.success(response.data.value.message);
           this.userData = response.data.value.userData;
-          console.log("STORE USER DATA: ", this.userData);
         });
     },
     setAccessToken(token) {

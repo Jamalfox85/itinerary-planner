@@ -5,6 +5,8 @@ import LoginView from "../views/Login.vue";
 import HomeView from "../views/Home.vue";
 import DashboardView from "../views/Dashboard.vue";
 import ProfileView from "../views/Profile.vue";
+import MyItinerariesView from "../views/MyItineraries.vue";
+import DiscoverView from "../views/Discover.vue";
 
 import DefaultLayout from "../layouts/Blank.vue";
 
@@ -32,9 +34,14 @@ const router = createRouter({
           component: ProfileView,
         },
         {
+          path: "myitineraries",
+          name: "myitineraries",
+          component: MyItinerariesView,
+        },
+        {
           path: "discover",
           name: "discover",
-          component: HomeView,
+          component: DiscoverView,
         },
       ],
     },

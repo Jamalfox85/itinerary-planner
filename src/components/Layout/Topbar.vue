@@ -4,6 +4,10 @@
       <font-awesome-icon :icon="['fas', 'city']" />
       <h2 class="logo-text" @click="navToHome">City Explorer</h2>
     </div>
+    <div class="topbar-links">
+      <a href="/myitineraries"><font-awesome-icon :icon="['fas', 'file-invoice']" class="icon" /> My Itineraries</a>
+      <a href="/discover"><font-awesome-icon :icon="['fas', 'magnifying-glass']" class="icon" />Discover</a>
+    </div>
     <div class="profile-group">
       <p class="profile-name">{{ userData?.firstName }} {{ userData?.lastName }}</p>
       <n-dropdown :options="profileOptions" trigger="hover" @select="handleProfileOptionClick">
@@ -46,6 +50,8 @@ export default {
   },
   setup() {
     const store = persistentStore();
+    store.setUserData();
+    let test = store.getUserData;
     return { store };
   },
 };
@@ -57,7 +63,7 @@ export default {
   padding: 0.75em 2em;
   background-color: #2274a5;
   .logo {
-    margin-right: auto;
+    margin-right: 2em;
     font-weight: bold;
     display: flex;
     align-items: center;
@@ -69,9 +75,25 @@ export default {
       font-size: 1em;
     }
   }
+  .topbar-links {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+    margin: 0 4em;
+    & > * {
+      font-weight: bold;
+      margin-right: 2em;
+      color: #fff;
+      text-decoration: none;
+      .icon {
+        margin-right: 0.5em;
+      }
+    }
+  }
   .profile-group {
     display: flex;
     align-items: center;
+    margin-left: auto;
     .profile-name {
       margin-right: 1em;
       font-weight: bold;
@@ -92,6 +114,11 @@ export default {
         color: #2274a5;
       }
     }
+  }
+}
+@media screen and (max-width: 750px) {
+  .topbar-links {
+    display: none !important;
   }
 }
 </style>

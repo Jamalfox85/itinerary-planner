@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard_wrapper">
-    <Searchbar />
+    <!-- <Searchbar />
     <div class="dashboard-main">
       <Itinerary class="itinerary" />
       <div class="info-blocks"></div>
@@ -10,7 +10,7 @@
       <div class="public-transportation-info"></div>
       <Restaurants class="restaurants" />
       <TimeZone class="time-zone-converter" />
-    </div>
+    </div> -->
   </div>
 </template>
 
@@ -39,8 +39,8 @@ export default {
 
 <style lang="scss">
 .dashboard_wrapper {
+  overflow-y: scroll;
   .dashboard-main {
-    height: 100vh;
     width: 100%;
     border: solid 8px purple;
     display: grid;
