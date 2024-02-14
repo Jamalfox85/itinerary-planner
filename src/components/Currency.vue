@@ -1,69 +1,132 @@
 <template lang="">
   <div class="currency_wrapper">
-    <h2 class="cell-header">Currency Converter</h2>
     <div class="currency-main">
       <div class="usd-group">
-        <p class="currency-label">USD</p>
-        <input type="text" class="dollar-input" v-model="dollars" />
+        <n-select class="currency-select" v-model:value="startingCurrency" :options="currencies" />
+        <n-input-number class="currency-input" v-model:value="startingValue" clearable />
       </div>
       <p class="equal-sign">=</p>
       <div class="euro-group">
-        <p class="currency-label">EURO</p>
-        <input type="text" class="dollar-input" v-model="euros" />
+        <n-select class="currency-select" v-model:value="targetCurrency" :options="currencies" />
+        <n-input-number class="currency-input" v-model:value="targetValue" clearable />
       </div>
     </div>
   </div>
 </template>
 <script>
 import { useFetch } from "@vueuse/core";
+import { NInputNumber, NSelect } from "naive-ui";
 export default {
+  components: { NInputNumber, NSelect },
   data() {
     return {
-      dollars: 0,
-      euros: 0,
+      startingCurrency: "USD",
+      targetCurrency: "EUR",
+      startingValue: 0,
+      targetValue: 0,
       conversionRate: null,
     };
   },
+  computed: {
+    currencies() {
+      return [
+        {
+          label: "USD",
+          value: "USD",
+        },
+        {
+          label: "EUR",
+          value: "EUR",
+        },
+        {
+          label: "JPY",
+          value: "JPY",
+        },
+        {
+          label: "GBP",
+          value: "GBP",
+        },
+        {
+          label: "AUD",
+          value: "AUD",
+        },
+        {
+          label: "CAD",
+          value: "CAD",
+        },
+        {
+          label: "CHF",
+          value: "CHF",
+        },
+        {
+          label: "CNY",
+          value: "CNY",
+        },
+        {
+          label: "SEK",
+          value: "SEK",
+        },
+        {
+          label: "NZD",
+          value: "NZD",
+        },
+      ];
+    },
+  },
   async mounted() {
-    await useFetch(`https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_CURRENCY_API_KEY}/latest/USD`).then((response) => {
+    await useFetch(`https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_CURRENCY_API_KEY}/latest/${this.startingCurrency}`).then((response) => {
       let parsedResponse = JSON.parse(response.data.value);
-      this.conversionRate = parsedResponse.conversion_rates.EUR;
+      this.conversionRate = parsedResponse.conversion_rates[this.targetCurrency];
+      console.log("CONVERSION: ", parsedResponse);
     });
   },
   watch: {
-    dollars(newValue, oldValue) {
-      this.euros = Math.round(newValue * this.conversionRate);
+    startingValue(newValue, oldValue) {
+      this.targetValue = (newValue * this.conversionRate).toFixed(2);
     },
-    euros(newValue, oldValue) {
-      this.dollars = Math.round(newValue / this.conversionRate);
+    targetValue(newValue, oldValue) {
+      this.startingValue = (newValue / this.conversionRate).toFixed(2);
+    },
+    async startingCurrency(newValue, oldValue) {
+      await useFetch(`https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_CURRENCY_API_KEY}/latest/${this.startingCurrency}`).then((response) => {
+        let parsedResponse = JSON.parse(response.data.value);
+        this.conversionRate = parsedResponse.conversion_rates[this.targetCurrency];
+        this.startingValue = (this.targetValue / this.conversionRate).toFixed(2);
+      });
+    },
+    async targetCurrency(newValue, oldValue) {
+      await useFetch(`https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_CURRENCY_API_KEY}/latest/${this.startingCurrency}`).then((response) => {
+        let parsedResponse = JSON.parse(response.data.value);
+        this.conversionRate = parsedResponse.conversion_rates[this.targetCurrency];
+        this.targetValue = (this.startingValue * this.conversionRate).toFixed(2);
+      });
     },
   },
 };
 </script>
 <style lang="scss">
 .currency_wrapper {
-  background-color: #8f95d3;
   .currency-main {
     display: flex;
+    // flex-direction: column;
+    justify-content: center;
     align-items: center;
-    justify-content: space-between;
     .usd-group,
     .euro-group {
       display: flex;
-      flex-direction: column;
+      // flex-direction: column;
+      align-items: center;
       text-align: center;
-      .currency-label {
-        font-weight: bold;
+      .currency-select {
+        width: fit-content;
       }
-      .dollar-input {
-        width: 4em;
-        padding: 8px;
-        border-radius: 12px;
-        outline: none;
+      .currency-input {
+        width: fit-content;
       }
     }
     .equal-sign {
       font-size: 2em;
+      margin: 0 0.5em;
     }
   }
 }

@@ -6,6 +6,7 @@ import HomeView from "../views/Home.vue";
 import DashboardView from "../views/Dashboard.vue";
 import ProfileView from "../views/Profile.vue";
 import MyItinerariesView from "../views/MyItineraries.vue";
+import ItineraryDetailsView from "../views/ItineraryDetails.vue";
 import DiscoverView from "../views/Discover.vue";
 
 import DefaultLayout from "../layouts/Blank.vue";
@@ -37,6 +38,11 @@ const router = createRouter({
           path: "myitineraries",
           name: "myitineraries",
           component: MyItinerariesView,
+        },
+        {
+          path: "itineraryDetails",
+          name: "itineraryDetails",
+          component: ItineraryDetailsView,
         },
         {
           path: "discover",

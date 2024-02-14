@@ -1,16 +1,16 @@
 <template lang="">
   <div class="main_wrapper">
-    <topbar />
+    <sidepanel class="sidepanel_wrapper" />
     <router-view class="router-view"></router-view>
-    <mobilebar class="mobile-toolbar" />
+    <!-- <mobilebar class="mobile-toolbar" /> -->
   </div>
 </template>
 <script>
-import Topbar from "../components/Layout/Topbar.vue";
+import Sidepanel from "../components/Layout/Sidepanel.vue";
 import Mobilebar from "../components/Layout/MobileActionBar.vue";
 
 export default {
-  components: { Topbar, Mobilebar },
+  components: { Sidepanel, Mobilebar },
 };
 </script>
 <style lang="scss">
@@ -19,7 +19,11 @@ export default {
   height: 100vh;
   overflow: hidden;
   display: flex;
-  flex-direction: column;
+  .sidepanel_wrapper {
+    width: 10%;
+    min-width: 250px;
+    max-width: 250px;
+  }
   .router-view {
     flex-grow: 1;
   }

@@ -73,7 +73,7 @@ export default {
       console.log("DATA: ", data);
       if (data.value.token) {
         window.$message.success("Login Successful");
-        window.location = "/dashboard";
+        window.location = "/myitineraries";
         localStorage.setItem("city-explorer-token", data.value.token);
       }
       if (error.value !== null) {

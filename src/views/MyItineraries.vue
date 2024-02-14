@@ -3,24 +3,42 @@
     <div class="itineraries-header">
       <h1 class="page-header">My Itineraries</h1>
       <div class="add-itinerary">
-        <font-awesome-icon :icon="['fas', 'plus']" class="icon" @click="showAddItineraryModal = true" style="cursor: pointer" />
+        <n-button color="#D90368" @click="showAddItineraryModal = true">
+          <font-awesome-icon :icon="['fas', 'plus']" class="" style="margin-right: 0.25em" />
+          Add new itinerary
+        </n-button>
       </div>
     </div>
-    <div class="itineraries-list">
-      <div class="itinerary-item" v-for="itinerary in itineraries">
-        <div class="circle"></div>
-        <div class="text-main">
-          <p class="itinerary-title">{{ itinerary.title }}</p>
-          <p class="itinerary-location">{{ itinerary.location }}</p>
-        </div>
-        <div class="right-side">
-          <p class="itinerary-dates">{{ itinerary.dates }}</p>
-        </div>
-        <div class="options">
-          <font-awesome-icon :icon="['fas', 'pen']" class="icon" />
-          <font-awesome-icon :icon="['fas', 'trash']" class="icon" @click="displayDeleteModal(itinerary)" />
-        </div>
+    <div class="stats-bar">
+      <div class="stat-group">
+        <p class="stat-header">Upcoming Trips</p>
+        <p class="stat-num">12</p>
       </div>
+      <div class="stat-group">
+        <p class="stat-header">Completed Trips</p>
+        <p class="stat-num">1</p>
+      </div>
+      <div class="stat-group">
+        <p class="stat-header">Upcoming Activities</p>
+        <p class="stat-num">22</p>
+      </div>
+      <div class="stat-group">
+        <p class="stat-header">Completed Activities</p>
+        <p class="stat-num">20</p>
+      </div>
+    </div>
+    <div class="itineraries-main">
+      <n-tabs type="line" animated>
+        <n-tab-pane name="all" tab="All">
+          <n-data-table :bordered="false" :columns="columns" :data="itineraries" :pagination="{ pageSize: 5 }" />
+        </n-tab-pane>
+        <n-tab-pane name="upcoming" tab="Upcoming">
+          <n-data-table :bordered="false" :columns="columns" :data="itineraries" :pagination="{ pageSize: 5 }" />
+        </n-tab-pane>
+        <n-tab-pane name="completed" tab="Completed">
+          <n-data-table :bordered="false" :columns="columns" :data="itineraries" :pagination="{ pageSize: 5 }" />
+        </n-tab-pane>
+      </n-tabs>
     </div>
     <n-modal v-model:show="showAddItineraryModal" class="add-itinerary-modal">
       <n-card style="width: 600px" title="Add Itinerary" :bordered="false" size="huge" role="dialog" aria-modal="true">
@@ -57,11 +75,12 @@
 </template>
 <script>
 import { persistentStore } from "../stores/PersistentStorage.js";
-import { NModal, NCard, NButton, NInput } from "naive-ui";
+import { NModal, NCard, NButton, NInput, NTabs, NTabPane, NDataTable, NSpace } from "naive-ui";
 import { useFetch } from "@vueuse/core";
+import { h, defineComponent } from "vue";
 
 export default {
-  components: { NModal, NCard, NButton, NInput },
+  components: { NModal, NCard, NButton, NInput, NTabs, NTabPane, NDataTable, NSpace },
   data() {
     return {
       showAddItineraryModal: false,
@@ -71,7 +90,7 @@ export default {
         location: "",
         dates: "",
       },
-      itineraries: null,
+      itineraries: [],
     };
   },
   async mounted() {
@@ -96,6 +115,60 @@ export default {
         let itineraries = response.data.value.itineraries;
         this.itineraries = itineraries;
       });
+  },
+  computed: {
+    columns() {
+      const displayDeleteModal = (rowData) => {
+        this.displayDeleteModal(rowData);
+      };
+      const navToItineraryPage = (rowData) => {
+        console.log("row data: ", rowData);
+        window.location = `/itineraryDetails?itinerary=${rowData._id}`;
+      };
+      return [
+        {
+          title: "Title",
+          key: "title",
+        },
+        {
+          title: "Location",
+          key: "location",
+        },
+        {
+          title: "Dates",
+          key: "dates",
+        },
+        {
+          title: "Actions",
+          key: "actions",
+          render(row) {
+            return [
+              h(
+                NButton,
+                {
+                  size: "small",
+                  onClick: (row) => {
+                    console.log("row: ", row);
+                    navToItineraryPage(row);
+                  },
+                },
+                { default: () => "View" }
+              ),
+              h(
+                NButton,
+                {
+                  size: "small",
+                  onClick: (row) => {
+                    displayDeleteModal(row);
+                  },
+                },
+                { default: () => "Delete" }
+              ),
+            ];
+          },
+        },
+      ];
+    },
   },
   methods: {
     async submitNewItinerary() {
@@ -153,24 +226,41 @@ export default {
 <style lang="scss">
 .myitineraries_wrapper {
   border: solid 2px red;
+  padding: 1em;
+  display: flex;
+  flex-direction: column;
   .itineraries-header {
     display: flex;
     align-items: center;
     padding: 1em;
     .add-itinerary {
       margin-left: auto;
-      height: 50px;
-      width: 50px;
-      border-radius: 50%;
       background-color: #d90368;
       display: flex;
       align-items: center;
       justify-content: center;
+      border-radius: 12px;
       .icon {
         color: #fff;
         font-size: 1.5em;
       }
     }
+  }
+  .stats-bar {
+    display: flex;
+    padding: 1em;
+    .stat-group {
+      margin-right: 2em;
+      text-align: center;
+      .stat-num {
+        font-size: 2em;
+        font-weight: bold;
+      }
+    }
+  }
+  .itineraries-main {
+    flex-grow: 1;
+    padding: 1.5em;
   }
   .itineraries-list {
     .itinerary-item {
