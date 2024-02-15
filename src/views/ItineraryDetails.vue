@@ -1,8 +1,8 @@
 <template lang="">
   <div class="details_wrapper">
     <div class="details-header">
-      <h1 class="page-header">{ Itinerary Title }</h1>
-      <p class="itinerary-dates fancy-text">{ Start Date } - { End Date }</p>
+      <h1 class="page-header">{{ itineraryDetails.title }}</h1>
+      <p class="itinerary-dates fancy-text">{{ tripStart }} - {{ tripEnd }}</p>
     </div>
     <div class="details-main">
       <div class="recommendation-column">
@@ -11,6 +11,7 @@
         </div>
         <div class="recommended-activities details-cell">
           <h2>Activity Recommendations</h2>
+          <activity-recommendations />
         </div>
         <div class="recommended-restaurants details-cell">
           <h2>Local Restaurants</h2>
@@ -55,9 +56,37 @@
 </template>
 <script>
 import { NTabs, NTabPane, NCheckbox } from "naive-ui";
+import { useFetch, useUrlSearchParams } from "@vueuse/core";
+import ActivityRecommendations from "../components/ActivityRecommendations.vue";
 import Currency from "../components/Currency.vue";
+import moment from "moment";
 export default {
-  components: { NTabs, NTabPane, NCheckbox, Currency },
+  components: { NTabs, NTabPane, NCheckbox, ActivityRecommendations, Currency },
+  data() {
+    return {
+      itineraryDetails: {},
+      tripStart: null,
+      tripEnd: null,
+    };
+  },
+  async mounted() {
+    let { itineraryId } = useUrlSearchParams("history");
+    let url = `http://localhost:3000/itinerary/itinerary/${itineraryId}`;
+    await useFetch(url).then((response) => {
+      let itineraryDetails = JSON.parse(response.data.value);
+      this.itineraryDetails = itineraryDetails;
+      console.log("RESPONSE: ", this.itineraryDetails);
+    });
+    this.setDates();
+  },
+  methods: {
+    setDates() {
+      let start = moment(this.itineraryDetails?.dateRange[0]).format("ddd MMM D YYYY");
+      let end = moment(this.itineraryDetails?.dateRange[1]).format("ddd MMM D YYYY ");
+      this.tripStart = start;
+      this.tripEnd = end;
+    },
+  },
 };
 </script>
 <style lang="scss">

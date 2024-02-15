@@ -31,68 +31,26 @@ import OpenAI from "openai";
 function getItineraryResponse() {
   return [
     {
-      timeOfDay: "morning",
-      activities: [
-        {
-          label: "Visit the Atlanta Botanical Garden",
-          details: "Enjoy a peaceful morning surrounded by beautiful flowers and plants. Admission fees apply. More information can be found at their website: https://atlantabg.org/",
-        },
-        {
-          label: "Explore the Atlanta BeltLine Eastside Trail",
-          details: "Take a relaxing walk or bike ride along the scenic Atlanta BeltLine Eastside Trail. Enjoy the urban art, parks, and vibrant atmosphere. Free to access.",
-        },
-      ],
+      title: "Visit the Atlanta Botanical Garden",
+      details: "Enjoy a peaceful morning surrounded by beautiful flowers and plants. Admission fees apply. More information can be found at their website: https://atlantabg.org/",
     },
     {
-      timeOfDay: "afternoon",
-      activities: [
-        {
-          label: "Visit the Martin Luther King Jr. National Historic Site",
-          details: "Explore the historic site dedicated to Martin Luther King Jr. Learn about his life and legacy through exhibits, tours, and a visit to his childhood home. Admission is free. More information can be found at their website: https://www.nps.gov/malu/",
-        },
-        {
-          label: "Take a tour of the World of Coca-Cola",
-          details: "Discover the history and taste the different Coca-Cola beverages at the World of Coca-Cola. Learn about the iconic brand and enjoy interactive exhibits. Admission fees apply. More information can be found at their website: https://www.worldofcoca-cola.com/",
-        },
-        {
-          label: "Explore the Atlanta History Center",
-          details: "Immerse yourself in Atlanta's history at the Atlanta History Center. Visit the exhibits, including the Civil War Museum and Swan House, and take a stroll through the beautiful gardens. Admission fees apply. More information can be found at their website: https://www.atlantahistorycenter.com/",
-        },
-      ],
+      title: "Explore the Atlanta BeltLine Eastside Trail",
+      details: "Take a relaxing walk or bike ride along the scenic Atlanta BeltLine Eastside Trail. Enjoy the urban art, parks, and vibrant atmosphere. Free to access.",
     },
     {
-      timeOfDay: "evening",
-      activities: [
-        {
-          label: "Catch a show at the Fox Theatre",
-          details: "Experience the grandeur of the Fox Theatre by attending a live performance. Enjoy Broadway shows, concerts, and more in this stunning historic venue. Ticket prices vary. More information can be found at their website: https://foxtheatre.org/",
-        },
-        {
-          label: "Dine at the Atlanta Food Truck Park",
-          details: "Savor a variety of delicious food from local food trucks at the Atlanta Food Truck Park. Enjoy the vibrant atmosphere and indulge in diverse cuisine options. Prices vary depending on the food trucks.",
-        },
-        {
-          label: "Go bar hopping in the Virginia-Highland neighborhood",
-          details: "Experience the lively nightlife in the Virginia-Highland neighborhood. Visit various bars and pubs, enjoy live music, and socialize with locals and fellow travelers.",
-        },
-      ],
+      title: "Visit the Martin Luther King Jr. National Historic Site",
+      details: "Explore the historic site dedicated to Martin Luther King Jr. Learn about his life and legacy through exhibits, tours, and a visit to his childhood home. Admission is free. More information can be found at their website: https://www.nps.gov/malu/",
     },
     {
-      timeOfDay: "night",
-      activities: [
-        {
-          label: "Visit the SkyView Atlanta",
-          details: "Take a ride on the giant Ferris wheel, SkyView Atlanta, and enjoy breathtaking views of the city skyline at night. Ticket prices apply. More information can be found at their website: https://www.skyviewatlanta.com/",
-        },
-        {
-          label: "Enjoy live music at the Blind Willie's",
-          details: "Head to Blind Willie's, a blues club in Atlanta, and enjoy live music performances. Sit back, relax, and immerse yourself in the soulful atmosphere. Admission fees vary.",
-        },
-      ],
+      title: "Take a tour of the World of Coca-Cola",
+      details: "Discover the history and taste the different Coca-Cola beverages at the World of Coca-Cola. Learn about the iconic brand and enjoy interactive exhibits. Admission fees apply. More information can be found at their website: https://www.worldofcoca-cola.com/",
+    },
+    {
+      title: "Explore the Atlanta History Center",
+      details: "Immerse yourself in Atlanta's history at the Atlanta History Center. Visit the exhibits, including the Civil War Museum and Swan House, and take a stroll through the beautiful gardens. Admission fees apply. More information can be found at their website: https://www.atlantahistorycenter.com/",
     },
   ];
 }
 
 export { getItineraryResponse };
-
-// Ducking attribution - <a href="https://www.vecteezy.com/free-vector/rubber-duck">Rubber Duck Vectors by Vecteezy</a>

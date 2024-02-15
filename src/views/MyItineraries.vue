@@ -40,37 +40,8 @@
         </n-tab-pane>
       </n-tabs>
     </div>
-    <n-modal v-model:show="showAddItineraryModal" class="add-itinerary-modal">
-      <n-card style="width: 600px" title="Add Itinerary" :bordered="false" size="huge" role="dialog" aria-modal="true">
-        <template #header-extra> <font-awesome-icon :icon="['fas', 'x']" class="icon" style="cursor: pointer" @click="showAddItineraryModal = false" /> </template>
-        <div class="input-group">
-          <label>Title</label>
-          <n-input type="text" v-model:value="addItinerary.title" />
-        </div>
-        <div class="input-group">
-          <label>Location</label>
-          <n-input type="text" v-model:value="addItinerary.location" />
-        </div>
-        <div class="input-group">
-          <label>Dates</label>
-          <n-input type="text" v-model:value="addItinerary.dates" />
-        </div>
-        <template #footer>
-          <n-button color="#00CC66" class="modal-save-bttn" @click="submitNewItinerary">Save</n-button>
-          <n-button class="modal-cancel-bttn" @click="closeNewItineraryModal">Cancel</n-button>
-        </template>
-      </n-card>
-    </n-modal>
-    <n-modal v-model:show="showDeleteItineraryModal" class="add-itinerary-modal">
-      <n-card style="width: 600px" title="Add Itinerary" :bordered="false" size="huge" role="dialog" aria-modal="true">
-        <template #header-extra> <font-awesome-icon :icon="['fas', 'x']" class="icon" style="cursor: pointer" @click="showDeleteItineraryModal = false" /> </template>
-        <p>Are you sure you want to delete this itinerary</p>
-        <template #footer>
-          <n-button color="#d90368" class="modal-save-bttn" @click="deleteItinerary">Delete</n-button>
-          <n-button class="modal-cancel-bttn" @click="hideDeleteModal">Cancel</n-button>
-        </template>
-      </n-card>
-    </n-modal>
+    <add-itinerary-modal v-if="showAddItineraryModal" @close="showAddItineraryModal = false" />
+    <delete-itinerary-modal v-if="showDeleteItineraryModal" @close="showDeleteItineraryModal = false" :itinerary="activeItinerary" />
   </div>
 </template>
 <script>
@@ -78,19 +49,17 @@ import { persistentStore } from "../stores/PersistentStorage.js";
 import { NModal, NCard, NButton, NInput, NTabs, NTabPane, NDataTable, NSpace } from "naive-ui";
 import { useFetch } from "@vueuse/core";
 import { h, defineComponent } from "vue";
+import AddItineraryModal from "../components/modals/AddItinerary.vue";
+import DeleteItineraryModal from "../components/modals/DeleteItinerary.vue";
 
 export default {
-  components: { NModal, NCard, NButton, NInput, NTabs, NTabPane, NDataTable, NSpace },
+  components: { NModal, NCard, NButton, NInput, NTabs, NTabPane, NDataTable, NSpace, AddItineraryModal, DeleteItineraryModal },
   data() {
     return {
       showAddItineraryModal: false,
       showDeleteItineraryModal: false,
-      addItinerary: {
-        title: "",
-        location: "",
-        dates: "",
-      },
       itineraries: [],
+      activeItinerary: null,
     };
   },
   async mounted() {
@@ -119,11 +88,11 @@ export default {
   computed: {
     columns() {
       const displayDeleteModal = (rowData) => {
-        this.displayDeleteModal(rowData);
+        this.showDeleteItineraryModal = true;
+        this.activeItinerary = rowData;
       };
       const navToItineraryPage = (rowData) => {
-        console.log("row data: ", rowData);
-        window.location = `/itineraryDetails?itinerary=${rowData._id}`;
+        window.location = `/itineraryDetails?itineraryId=${rowData._id}`;
       };
       return [
         {
@@ -147,8 +116,7 @@ export default {
                 NButton,
                 {
                   size: "small",
-                  onClick: (row) => {
-                    console.log("row: ", row);
+                  onClick: () => {
                     navToItineraryPage(row);
                   },
                 },
@@ -158,7 +126,7 @@ export default {
                 NButton,
                 {
                   size: "small",
-                  onClick: (row) => {
+                  onClick: () => {
                     displayDeleteModal(row);
                   },
                 },
@@ -168,53 +136,6 @@ export default {
           },
         },
       ];
-    },
-  },
-  methods: {
-    async submitNewItinerary() {
-      const { data, error } = await useFetch("http://localhost:3000/itinerary/add")
-        .post({
-          user_id: await this.store.getUserData._id,
-          title: this.addItinerary.title,
-          location: this.addItinerary.location,
-          dates: this.addItinerary.dates,
-        })
-        .json();
-      console.log("DATA: ", data);
-    },
-    closeNewItineraryModal() {
-      this.addItinerary.title = "";
-      this.addItinerary.location = "";
-      this.addItinerary.dates = "";
-    },
-    async deleteItinerary() {
-      const url = "http://localhost:3000/itinerary/delete";
-      const token = localStorage.getItem("city-explorer-token");
-      let itinerary_id = this.activeItinerary._id;
-      let title = this.activeItinerary.title;
-      await useFetch(url, {
-        async beforeFetch({ url, options, cancel }) {
-          if (!token) cancel();
-          options.headers = {
-            ...options.headers,
-            Authorization: `Bearer ${token}`,
-            itinerary_id: itinerary_id,
-          };
-          return {
-            options,
-          };
-        },
-      })
-        .delete()
-        .json();
-    },
-    displayDeleteModal(itinerary) {
-      this.activeItinerary = itinerary;
-      this.showDeleteItineraryModal = true;
-    },
-    hideDeleteModal() {
-      this.activeItinerary = {};
-      this.showDeleteItineraryModal = false;
     },
   },
   setup() {

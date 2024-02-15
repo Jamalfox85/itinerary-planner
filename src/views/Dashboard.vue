@@ -19,14 +19,14 @@
 import { persistentStore } from "../stores/PersistentStorage.js";
 import { NButton, NInput } from "naive-ui";
 import Searchbar from "../components/Searchbar.vue";
-import Itinerary from "../components/Itinerary.vue";
+// import Itinerary from "../components/Itinerary.vue";
 import Restaurants from "../components/Restaurants.vue";
 import TimeZone from "../components/TimeZone.vue";
 import Weather from "../components/Weather.vue";
 import CurrencyConversion from "../components/Currency.vue";
 
 export default {
-  components: { NButton, NInput, Searchbar, Itinerary, Restaurants, TimeZone, Weather, CurrencyConversion },
+  components: { NButton, NInput, Searchbar, Restaurants, TimeZone, Weather, CurrencyConversion },
   setup() {
     let store = persistentStore();
     return { store };
