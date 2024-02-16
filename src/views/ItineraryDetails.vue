@@ -11,7 +11,7 @@
         </div>
         <div class="recommended-activities details-cell">
           <h2>Activity Recommendations</h2>
-          <activity-recommendations />
+          <activity-recommendations @addActivity="addActivity" />
         </div>
         <div class="recommended-restaurants details-cell">
           <h2>Local Restaurants</h2>
@@ -27,9 +27,9 @@
           <n-tabs type="line" animated style="--n-bar-color: #d90368">
             <n-tab-pane name="all" tab="All Activities">
               <div class="activities">
-                <div class="activity-entry" :class="{ completed: false }" v-for="activity in 20">
+                <div class="activity-entry" :class="{ completed: false }" v-for="activity in itineraryDetails.activities">
                   <n-checkbox class="completed-checkbox" style="--n-color-checked: #d90368; --n-border-checked: 1px solid #d90368; --n-border-focus: #d90368; --n-box-shadow-focus: 0 0 0 2px #d9036825" />
-                  <p class="title">Botanial Gardens</p>
+                  <p class="title">{{ activity.title }}</p>
                   <font-awesome-icon :icon="['fas', 'circle-info']" class="icon" />
                 </div>
               </div>
@@ -60,6 +60,8 @@ import { useFetch, useUrlSearchParams } from "@vueuse/core";
 import ActivityRecommendations from "../components/ActivityRecommendations.vue";
 import Currency from "../components/Currency.vue";
 import moment from "moment";
+import axios from "axios";
+
 export default {
   components: { NTabs, NTabPane, NCheckbox, ActivityRecommendations, Currency },
   data() {
@@ -85,6 +87,24 @@ export default {
       let end = moment(this.itineraryDetails?.dateRange[1]).format("ddd MMM D YYYY ");
       this.tripStart = start;
       this.tripEnd = end;
+    },
+    async addActivity(activity) {
+      const url = "http://localhost:3000/itinerary/addActivity";
+      axios
+        .put(url, {
+          itinerary_id: this.itineraryDetails._id,
+          activity: {
+            title: activity.title,
+            description: activity.details,
+          },
+        })
+        .then((response) => {
+          window.$message.success("Activity Successfully Added");
+        })
+        .catch((error) => {
+          console.log("ERROR: ", error);
+          window.$message.error(error);
+        });
     },
   },
 };

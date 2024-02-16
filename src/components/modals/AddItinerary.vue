@@ -8,7 +8,7 @@
       </div>
       <div class="input-group">
         <label>Location</label>
-        <n-input type="text" v-model:value="addItinerary.location" />
+        <Searchbar @citySelected="citySelected" />
       </div>
       <div class="input-group">
         <label>Dates</label>
@@ -27,9 +27,9 @@ import { NModal, NCard, NButton, NInput, NDatePicker } from "naive-ui";
 import { useFetch } from "@vueuse/core";
 import moment from "moment";
 import axios from "axios";
-
+import Searchbar from "../Searchbar.vue";
 export default {
-  components: { NModal, NCard, NButton, NInput, NDatePicker },
+  components: { NModal, NCard, NButton, NInput, NDatePicker, Searchbar },
   data() {
     return {
       showAddItineraryModal: false,
@@ -38,6 +38,7 @@ export default {
         location: "",
         dateRange: null,
       },
+      selectedLocation: null,
     };
   },
   mounted() {
@@ -46,6 +47,9 @@ export default {
     this.showAddItineraryModal = true;
   },
   methods: {
+    citySelected(city) {
+      this.selectedLocation = city;
+    },
     async submitNewItinerary() {
       const url = "http://localhost:3000/itinerary/add";
       axios
@@ -54,6 +58,8 @@ export default {
           title: this.addItinerary.title,
           location: this.addItinerary.location,
           dateRange: this.addItinerary.dateRange,
+          location: this.selectedLocation,
+          activities: [],
         })
         .then((response) => {
           console.log("RESPONSE: ", response);

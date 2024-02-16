@@ -56,9 +56,8 @@ export default {
       this.activities = activityArray;
     },
     saveActivity(activityIndex) {
-      // console.log("saving: ", activityIndex);
+      this.$emit("addActivity", this.activities[activityIndex]);
       this.activities = this.activities.filter((activity, index) => {
-        console.log(index, activityIndex);
         return index !== activityIndex;
       });
     },

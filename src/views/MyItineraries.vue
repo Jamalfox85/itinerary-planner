@@ -12,19 +12,21 @@
     <div class="stats-bar">
       <div class="stat-group">
         <p class="stat-header">Upcoming Trips</p>
-        <p class="stat-num">12</p>
+        <div class="stat-num">
+          <n-number-animation :from="0" :to="itineraries.length" :active="true" :precision="0" />
+        </div>
       </div>
       <div class="stat-group">
         <p class="stat-header">Completed Trips</p>
-        <p class="stat-num">1</p>
+        <p class="stat-num">-</p>
       </div>
       <div class="stat-group">
         <p class="stat-header">Upcoming Activities</p>
-        <p class="stat-num">22</p>
+        <p class="stat-num">-</p>
       </div>
       <div class="stat-group">
         <p class="stat-header">Completed Activities</p>
-        <p class="stat-num">20</p>
+        <p class="stat-num">-</p>
       </div>
     </div>
     <div class="itineraries-main">
@@ -46,14 +48,14 @@
 </template>
 <script>
 import { persistentStore } from "../stores/PersistentStorage.js";
-import { NModal, NCard, NButton, NInput, NTabs, NTabPane, NDataTable, NSpace } from "naive-ui";
+import { NModal, NCard, NButton, NInput, NTabs, NTabPane, NDataTable, NSpace, NNumberAnimation } from "naive-ui";
 import { useFetch } from "@vueuse/core";
 import { h, defineComponent } from "vue";
 import AddItineraryModal from "../components/modals/AddItinerary.vue";
 import DeleteItineraryModal from "../components/modals/DeleteItinerary.vue";
 
 export default {
-  components: { NModal, NCard, NButton, NInput, NTabs, NTabPane, NDataTable, NSpace, AddItineraryModal, DeleteItineraryModal },
+  components: { NModal, NCard, NButton, NInput, NTabs, NTabPane, NDataTable, NSpace, NNumberAnimation, AddItineraryModal, DeleteItineraryModal },
   data() {
     return {
       showAddItineraryModal: false,
@@ -84,6 +86,8 @@ export default {
         let itineraries = response.data.value.itineraries;
         this.itineraries = itineraries;
       });
+
+    // this.$refs.upcomingTripsNum.value?.play();
   },
   computed: {
     columns() {
@@ -101,7 +105,7 @@ export default {
         },
         {
           title: "Location",
-          key: "location",
+          key: "location.name",
         },
         {
           title: "Dates",
