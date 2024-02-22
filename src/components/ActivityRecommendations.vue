@@ -1,21 +1,21 @@
 <template lang="">
   <div class="itinerary_wrapper">
     <div class="results">
-      <div class="no-activity-display" v-if="activities.length == 1">
+      <div class="no-activity-display" v-if="activities.length < 1">
         <h3>No Activities To Display</h3>
-        <n-button color="#D90368">Generate Recommendations</n-button>
+        <n-button color="#D90368" @click="getGPTItineraryResponse">Generate Recommendations</n-button>
       </div>
       <n-collapse v-else :accordion="true">
         <div v-for="(activity, index) in activities" class="activity-group">
           <n-collapse-item :title="activity.title" :name="activity.title">
-            <!-- <template #header-extra>
+            <template #header-extra>
               <n-button class="save-bttn" color="#00cc66" @click="saveActivity(index)"><font-awesome-icon :icon="['fas', 'check']" /></n-button>
-              <n-button class="not-interested-bttn" type="error" @click="removeActivity(index)"><font-awesome-icon :icon="['fas', 'ban']" /></n-button>
-            </template> -->
-            <p>{{ activity.details }}</p>
+              <!-- <n-button class="not-interested-bttn" type="error" @click="removeActivity(index)"><font-awesome-icon :icon="['fas', 'ban']" /></n-button> -->
+            </template>
+            <p>{{ activity.description }}</p>
           </n-collapse-item>
-          <n-button class="save-bttn" color="#00cc66" @click="saveActivity(index)"><font-awesome-icon :icon="['fas', 'check']" /></n-button>
-          <n-button class="not-interested-bttn" type="error" @click="removeActivity(index)"><font-awesome-icon :icon="['fas', 'ban']" /></n-button>
+          <!-- <n-button class="save-bttn" color="#00cc66" @click="saveActivity(index)"><font-awesome-icon :icon="['fas', 'check']" /></n-button> -->
+          <!-- <n-button class="not-interested-bttn" type="error" @click="removeActivity(index)"><font-awesome-icon :icon="['fas', 'ban']" /></n-button> -->
         </div>
       </n-collapse>
     </div>
@@ -30,10 +30,10 @@ import { getItineraryResponse } from "../services/openai_service.js";
 
 export default {
   components: { NButton, NCollapse, NCollapseItem, NTag, NSpin },
+  props: { cityName: String },
   data() {
     return {
       activities: [],
-      showResults: false,
     };
   },
   setup() {
@@ -45,14 +45,11 @@ export default {
     this.getGPTItineraryResponse();
   },
   methods: {
-    // loadItineraryResults() {
-    //   this.showResults = true;
-    //   //   this.getGPTItineraryResponse(this.store.getLocation.cityName);
-    //   this.getGPTItineraryResponse("Atlanta");
-    // },
-    async getGPTItineraryResponse(cityName) {
-      let activityArray = await this.getItinerary(cityName, this.store.moodId);
-      // console.log("ITINERARY OBJECT: ", activityArray);
+    async getGPTItineraryResponse() {
+      let mood = "anything";
+
+      let activityArray = await this.getItinerary(this.cityName, mood);
+      console.log("ITINERARY OBJECT: ", activityArray);
       this.activities = activityArray;
     },
     saveActivity(activityIndex) {
@@ -62,7 +59,6 @@ export default {
       });
     },
     removeActivity(activityIndex) {
-      // console.log("removing: ", activityIndex);
       this.activities = this.activities.filter((activity, index) => {
         console.log(index, activityIndex);
 

@@ -15,9 +15,9 @@ export default {
 </script>
 <style lang="scss">
 .main_wrapper {
-  max-height: 100vh;
-  height: 100vh;
-  overflow: hidden;
+  // max-height: 100vh;
+  // height: 100vh;
+  // overflow: hidden;
   display: flex;
   .sidepanel_wrapper {
     width: 10%;

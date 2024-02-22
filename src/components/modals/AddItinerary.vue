@@ -60,6 +60,7 @@ export default {
           dateRange: this.addItinerary.dateRange,
           location: this.selectedLocation,
           activities: [],
+          restaurants: [],
         })
         .then((response) => {
           console.log("RESPONSE: ", response);

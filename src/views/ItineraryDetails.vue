@@ -11,10 +11,11 @@
         </div>
         <div class="recommended-activities details-cell">
           <h2>Activity Recommendations</h2>
-          <activity-recommendations @addActivity="addActivity" />
+          <activity-recommendations @addActivity="addActivity" :cityName="itineraryDetails?.location?.name" />
         </div>
         <div class="recommended-restaurants details-cell">
           <h2>Local Restaurants</h2>
+          <restaurant-recommendations @addRestaurant="addRestaurant" :location="itineraryDetails?.location" />
         </div>
       </div>
       <div class="confirmed-column">
@@ -41,9 +42,9 @@
           <n-tabs type="line" animated>
             <n-tab-pane name="all" tab="All Restaurants">
               <div class="restaurants">
-                <div class="restaurant-entry" :class="{ completed: false }" v-for="restaurant in 20">
+                <div class="restaurant-entry" :class="{ completed: false }" v-for="restaurant in itineraryDetails.restaurants">
                   <n-checkbox class="completed-checkbox" style="--n-color-checked: #00cc66; --n-border-checked: 1px solid #00cc66; --n-border-focus: #00cc66; --n-box-shadow-focus: 0 0 0 2px #00cc6625" />
-                  <p class="title">Pizza Palace</p>
+                  <p class="title">{{ restaurant.name }}</p>
                   <font-awesome-icon :icon="['fas', 'circle-info']" class="icon" />
                 </div>
               </div>
@@ -58,12 +59,13 @@
 import { NTabs, NTabPane, NCheckbox } from "naive-ui";
 import { useFetch, useUrlSearchParams } from "@vueuse/core";
 import ActivityRecommendations from "../components/ActivityRecommendations.vue";
+import RestaurantRecommendations from "../components/RestaurantRecommendations.vue";
 import Currency from "../components/Currency.vue";
 import moment from "moment";
 import axios from "axios";
 
 export default {
-  components: { NTabs, NTabPane, NCheckbox, ActivityRecommendations, Currency },
+  components: { NTabs, NTabPane, NCheckbox, ActivityRecommendations, RestaurantRecommendations, Currency },
   data() {
     return {
       itineraryDetails: {},
@@ -100,6 +102,25 @@ export default {
         })
         .then((response) => {
           window.$message.success("Activity Successfully Added");
+        })
+        .catch((error) => {
+          console.log("ERROR: ", error);
+          window.$message.error(error);
+        });
+    },
+    async addRestaurant(restaurant) {
+      const url = "http://localhost:3000/itinerary/addRestaurant";
+      axios
+        .put(url, {
+          itinerary_id: this.itineraryDetails._id,
+          restaurant: {
+            name: restaurant?.poi?.name,
+            address: restaurant?.address?.freeformAddress,
+            website: restaurant?.poi?.url,
+          },
+        })
+        .then((response) => {
+          window.$message.success("Restaurant Successfully Added");
         })
         .catch((error) => {
           console.log("ERROR: ", error);
@@ -191,8 +212,9 @@ export default {
         flex-direction: column;
         .activities {
           display: flex;
-          flex-wrap: wrap;
-          height: 100px;
+          flex-direction: column;
+          // flex-wrap: wrap;
+          // height: 100px;
           overflow-y: scroll;
           .activity-entry {
             flex-grow: 1;
