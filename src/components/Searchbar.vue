@@ -87,7 +87,6 @@ export default {
               longitude: results.coords.longitude,
             },
           };
-          console.log("COORDINATES: ", this.selectedLocation);
           this.locationLoading = false;
         },
         /* Error Response */

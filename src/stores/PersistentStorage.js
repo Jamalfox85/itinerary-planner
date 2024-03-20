@@ -22,7 +22,7 @@ export const persistentStore = defineStore("persistent", {
       const token = localStorage.getItem("city-explorer-token");
       await useFetch(url, {
         async beforeFetch({ url, options, cancel }) {
-          if (!token) cancel();
+          if (!token) console.log("ping");
           options.headers = {
             ...options.headers,
             Authorization: `Bearer ${token}`,
@@ -36,6 +36,9 @@ export const persistentStore = defineStore("persistent", {
         .then((response) => {
           window.$message.success(response.data.value.message);
           this.userData = response.data.value.userData;
+        })
+        .catch(() => {
+          window.location = "/login";
         });
     },
     setAccessToken(token) {

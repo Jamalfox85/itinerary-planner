@@ -1,38 +1,52 @@
 <template lang="">
   <div class="sidepanel_wrapper">
     <div class="sidepanel-header">
-      <div class="logo">
-        <font-awesome-icon :icon="['fas', 'star']" class="icon" />
-      </div>
-      <p class="app-title" @click="navToHome">City Explorer</p>
-      <div>
-        <font-awesome-icon :icon="['fas', 'bars-staggered']" class="expand-toggle" />
-      </div>
+      <p class="app-title" @click="navToHome">Wander Wise</p>
     </div>
-    <div class="sidepanel-footer">
+    <div class="user-group">
       <div class="profile-bubble">
         <font-awesome-icon :icon="['fas', 'user']" class="icon" />
       </div>
-      <div class="profile-text">
-        <p class="profile-name">{{ userData?.firstName }} {{ userData?.lastName }}</p>
-        <p class="profile-email">{{ userData?.email }}</p>
-      </div>
-      <n-dropdown :options="profileOptions" trigger="hover" @select="handleProfileOptionClick" class="gear-group">
-        <div class="gear-group">
-          <font-awesome-icon :icon="['fas', 'gear']" class="icon" />
+      <p class="profile-name">{{ userData?.firstName }} {{ userData?.lastName }}</p>
+      <n-button class="edit-profile-button" color="#A2E3C4">Edit Profile</n-button>
+    </div>
+    <div class="sidepanel-main">
+      <div class="nav-block" :class="{ active: pagePath == '/myitineraries' }" @click="navTo('/myitineraries')">
+        <div class="icon-block">
+          <font-awesome-icon :icon="['fas', 'clipboard-list']" class="icon" />
         </div>
-      </n-dropdown>
+        <p class="block-label">My Itineraries</p>
+      </div>
+      <div class="nav-block">
+        <div class="icon-block">
+          <font-awesome-icon :icon="['fas', 'compass']" class="icon" />
+        </div>
+        <p class="block-label">Discover</p>
+      </div>
+      <div class="nav-block">
+        <div class="icon-block">
+          <font-awesome-icon :icon="['fas', 'magnifying-glass-location']" class="icon" />
+        </div>
+        <p class="block-label">Search</p>
+      </div>
+      <div class="nav-block">
+        <div class="icon-block">
+          <font-awesome-icon :icon="['fas', 'question']" class="icon" />
+        </div>
+        <p class="block-label">Plan My Day</p>
+      </div>
     </div>
   </div>
 </template>
 <script>
 import { persistentStore } from "../../stores/PersistentStorage.js";
-import { NDropdown } from "naive-ui";
+import { NDropdown, NButton } from "naive-ui";
 
 export default {
-  components: { NDropdown },
+  components: { NDropdown, NButton },
   data() {
     return {
+      pagePath: null,
       profileOptions: [
         {
           label: "View Profile",
@@ -44,6 +58,9 @@ export default {
   methods: {
     navToHome() {
       this.$router.push("/");
+    },
+    navTo(destination) {
+      this.$router.push(destination);
     },
     handleProfileOptionClick(e) {
       if (e == "profile") {
@@ -62,6 +79,10 @@ export default {
     let test = store.getUserData;
     return { store };
   },
+  mounted() {
+    let pagePath = this.$router;
+    this.pagePath = pagePath.currentRoute.value.fullPath;
+  },
 };
 </script>
 <style lang="scss">
@@ -69,57 +90,110 @@ export default {
   width: 25%;
   display: flex;
   flex-direction: column;
-  padding: 0.75em;
-  background-color: #2274a5;
+  background-color: #d90368;
+  min-height: 100vh;
+  background-image: url("../../assets/images/sidepanel-bg.jpg");
+  background-size: cover;
+  position: relative;
+  border-right: solid 8px #a2e3c4;
+  &::before {
+    background-color: rgba(0, 0, 0, 0.37);
+    content: "";
+    display: block;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+  }
   .sidepanel-header {
     height: 80px;
     display: flex;
     align-items: center;
     margin-bottom: 2em;
     color: #fff;
-    .icon {
-      font-size: 1.5em;
-      margin-right: 0.5em;
-    }
+    padding: 1em;
+    position: relative;
+    z-index: 2;
     .app-title {
       margin-right: auto;
-    }
-    .expand-toggle {
-      font-size: 1.25em;
-      transform: rotateX(180deg);
+      font-size: 1.5em;
+      font-weight: bold;
     }
   }
-  .sidepanel-main {
-    flex-grow: 1;
-    border: solid 2px blueviolet;
-  }
-  .sidepanel-footer {
-    height: 80px;
+  .user-group {
+    position: relative;
+    z-index: 2;
     display: flex;
+    flex-direction: column;
     align-items: center;
-    padding: 0 0.5em;
-    margin-top: auto;
-    color: #fff;
     .profile-bubble {
-      height: 45px;
-      min-width: 45px;
+      height: 4.5em;
+      width: 4.5em;
       border-radius: 50%;
-      margin-right: 1em;
-      background-color: #d90368;
+      background-color: #fff;
       display: flex;
+      margin-bottom: 0.5em;
       .icon {
         margin: auto;
-        font-size: 1.35em;
+        font-size: 3em;
       }
     }
     .profile-name {
-      font-weight: bold;
+      color: #fff;
+      font-size: 1.25em;
     }
-    .profile-email {
-      font-size: 0.7em;
+    .edit-profile-button {
+      border-radius: 2em;
+      padding: 0.25em 2em;
+      color: #000;
+      margin-top: 0.5em;
+      transition: 0.25s ease;
+      &:hover {
+        background-color: #ff6b6b;
+      }
     }
-    .gear-group {
-      margin-left: auto;
+  }
+  .sidepanel-main {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 2em;
+    padding: 1em;
+    position: relative;
+    z-index: 2;
+    .nav-block {
+      margin: 0.5em;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      .icon-block {
+        height: 100px;
+        width: 100px;
+        border-radius: 12px;
+        background-color: rgba(255, 255, 255, 0.25);
+        margin-bottom: 12px;
+        display: flex;
+        transition: 0.2s ease;
+        cursor: pointer;
+        &:hover {
+          background-color: rgba(255, 255, 255, 0.5);
+        }
+        .icon {
+          font-size: 3em;
+          margin: auto;
+          color: #fff;
+        }
+      }
+      .block-label {
+        color: #fff;
+      }
+      &.active {
+        .icon-block {
+          border: solid 2px #a2e3c4;
+        }
+        .block-label {
+          font-weight: bold;
+        }
+      }
     }
   }
 }

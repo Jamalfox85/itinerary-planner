@@ -1,5 +1,8 @@
 <template lang="">
   <div class="register_wrapper">
+    <!-- <div class="plane-graphics">
+      <div class="plane-graphic" v-for="plane in 10" :style="{ left: randomizeCoordinates.xPos }"></div>
+    </div> -->
     <div class="register-main">
       <h1 class="primary-header">Wander Wise</h1>
       <h2 class="secondary-header">Seamlessly Organize, Effortlessly Explore</h2>
@@ -70,7 +73,6 @@ export default {
           password: this.pass,
         })
         .json();
-      console.log("DATA: ", data);
       if (data.value.token) {
         window.$message.success("Login Successful");
         window.location = "/myitineraries";
@@ -87,30 +89,56 @@ export default {
 };
 </script>
 <style lang="scss">
+.plane-graphics {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border: solid 2px green;
+  .plane-graphic {
+    height: 6px;
+    width: 6px;
+    background-color: blue;
+    position: absolute;
+  }
+}
 .register_wrapper {
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
-  align-items: center;
+  // align-items: center;
   justify-content: space-around;
   padding: 2em;
-  background-color: #00cc66;
+  background-color: #fff;
+  background-image: url("../assets/images/sidepanel-bg.jpg");
+  background-size: cover;
+  &::before {
+    background-color: rgba(0, 0, 0, 0.37);
+    content: "";
+    display: block;
+    height: 100%;
+    position: absolute;
+    width: 100%;
+    top: 0;
+  }
   .register-main {
-    border: solid 2px green;
     padding: 1em;
     width: 50%;
-    text-shadow: 1px 1px 4px #fff;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    color: #fff;
     .primary-header {
+      text-shadow: 1px 1px 4px #a2e3c460;
       font-size: 96px;
     }
     .secondary-header {
-      font-size: 36px;
+      font-size: 24px;
     }
   }
   .register-form {
     min-height: 500px;
     min-width: 400px;
     max-width: 400px;
-    border: solid 4px #d90368;
+    border: solid 4px #a2e3c4;
     border-radius: 12px;
     background-color: #fff;
     box-shadow: 6px 12px 12px hsl(0deg 0% 0% / 0.31);
@@ -118,6 +146,8 @@ export default {
     display: flex;
     flex-direction: column;
     transition: 0.2s ease;
+    position: relative;
+    z-index: 2;
     .register-form-header {
       font-size: 2em;
     }
@@ -134,13 +164,59 @@ export default {
     .sign-up-bttn {
       width: fit-content;
       margin: 1em;
+      background-color: #a2e3c4;
+      color: #000;
+      border-radius: 2em;
     }
     .switch-to-login {
       margin-top: auto;
       align-self: center;
       .login-span {
-        color: #d90368;
+        color: #000;
         text-decoration: underline;
+        background-color: #a2e3c4;
+        padding: 8px 24px;
+        border-radius: 1em;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .register_wrapper {
+    flex-direction: column;
+    align-items: center;
+    justify-content: initial;
+    .register-main {
+      width: 100%;
+      margin-bottom: 2em;
+      .primary-header {
+        font-size: 64px;
+      }
+    }
+    .register-form {
+      min-height: initial;
+      min-width: initial;
+      max-width: initial;
+      flex-grow: 1;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .register_wrapper {
+    // padding: none;
+    .register-main {
+      .primary-header {
+        font-size: 48px;
+      }
+      .secondary-header {
+        font-size: 18px;
+      }
+    }
+    .register-form {
+      .register-form-header {
+        font-size: 1.25em;
       }
     }
   }

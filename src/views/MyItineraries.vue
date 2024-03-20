@@ -3,44 +3,21 @@
     <div class="itineraries-header">
       <h1 class="page-header">My Itineraries</h1>
       <div class="add-itinerary">
-        <n-button color="#D90368" @click="showAddItineraryModal = true">
+        <n-button color="#A2E3C4" class="add-bttn" @click="showAddItineraryModal = true">
           <font-awesome-icon :icon="['fas', 'plus']" class="" style="margin-right: 0.25em" />
           Add new itinerary
         </n-button>
       </div>
     </div>
-    <div class="stats-bar">
-      <div class="stat-group">
-        <p class="stat-header">Upcoming Trips</p>
-        <div class="stat-num">
-          <n-number-animation :from="0" :to="itineraries.length" :active="true" :precision="0" />
-        </div>
-      </div>
-      <div class="stat-group">
-        <p class="stat-header">Completed Trips</p>
-        <p class="stat-num">-</p>
-      </div>
-      <div class="stat-group">
-        <p class="stat-header">Upcoming Activities</p>
-        <p class="stat-num">-</p>
-      </div>
-      <div class="stat-group">
-        <p class="stat-header">Completed Activities</p>
-        <p class="stat-num">-</p>
+    <div class="itineraries-main" v-if="itineraries.length > 0">
+      <div class="upcoming-trips">
+        <h2>Upcoming Trips</h2>
+        <n-data-table :bordered="false" :columns="columns" :data="itineraries" :pagination="{ pageSize: 5 }" />
       </div>
     </div>
-    <div class="itineraries-main">
-      <n-tabs type="line" animated>
-        <n-tab-pane name="all" tab="All">
-          <n-data-table :bordered="false" :columns="columns" :data="itineraries" :pagination="{ pageSize: 5 }" />
-        </n-tab-pane>
-        <n-tab-pane name="upcoming" tab="Upcoming">
-          <n-data-table :bordered="false" :columns="columns" :data="itineraries" :pagination="{ pageSize: 5 }" />
-        </n-tab-pane>
-        <n-tab-pane name="completed" tab="Completed">
-          <n-data-table :bordered="false" :columns="columns" :data="itineraries" :pagination="{ pageSize: 5 }" />
-        </n-tab-pane>
-      </n-tabs>
+    <div class="empty-state" v-else>
+      <p class="empty-text">Add an itinerary for information to populate here!</p>
+      <img src="../assets/images/undraw-park.svg" class="undraw-img" />
     </div>
     <add-itinerary-modal v-if="showAddItineraryModal" @close="showAddItineraryModal = false" />
     <delete-itinerary-modal v-if="showDeleteItineraryModal" @close="showDeleteItineraryModal = false" :itinerary="activeItinerary" />
@@ -150,7 +127,6 @@ export default {
 </script>
 <style lang="scss">
 .myitineraries_wrapper {
-  border: solid 2px red;
   padding: 1em;
   display: flex;
   flex-direction: column;
@@ -160,11 +136,14 @@ export default {
     padding: 1em;
     .add-itinerary {
       margin-left: auto;
-      background-color: #d90368;
       display: flex;
       align-items: center;
       justify-content: center;
       border-radius: 12px;
+      .add-bttn {
+        border-radius: 2em;
+        color: #000;
+      }
       .icon {
         color: #fff;
         font-size: 1.5em;
@@ -186,6 +165,12 @@ export default {
   .itineraries-main {
     flex-grow: 1;
     padding: 1.5em;
+    .upcoming-trips {
+      h2 {
+        font-size: 1.5em;
+        margin-bottom: 1em;
+      }
+    }
   }
   .itineraries-list {
     .itinerary-item {
@@ -242,6 +227,29 @@ export default {
           cursor: pointer;
         }
       }
+    }
+  }
+  .empty-state {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 1;
+    font-size: 1.5em;
+    position: relative;
+    .empty-text {
+      opacity: 0.5;
+      position: relative;
+      bottom: 20%;
+      font-size: 1em;
+    }
+    .undraw-img {
+      width: 50%;
+      position: absolute;
+      z-index: -1;
+      opacity: 0.75;
     }
   }
 }

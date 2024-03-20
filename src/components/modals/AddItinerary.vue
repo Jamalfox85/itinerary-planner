@@ -43,7 +43,6 @@ export default {
   },
   mounted() {
     let date = moment();
-    console.log("DATE: ", date);
     this.showAddItineraryModal = true;
   },
   methods: {
@@ -63,7 +62,6 @@ export default {
           restaurants: [],
         })
         .then((response) => {
-          console.log("RESPONSE: ", response);
           window.$message.success("Itinerary Successfully Added");
           this.closeModal();
         })

@@ -1,36 +1,39 @@
 <template lang="">
   <div class="itinerary_wrapper">
-    <div class="results">
-      <n-collapse :accordion="true">
-        <div v-for="(restaurant, index) in restaurantsToDisplay" class="restaurant-group">
-          <n-collapse-item :title="restaurant?.poi?.name" :name="restaurant?.poi?.name">
-            <template #header-extra>
-              <n-button class="save-bttn" color="#00cc66" @click="saveRestaurant(index)"><font-awesome-icon :icon="['fas', 'check']" /></n-button>
-              <!-- <n-button class="not-interested-bttn" type="error" @click="removeRestaurant(index)"><font-awesome-icon :icon="['fas', 'ban']" /></n-button> -->
-            </template>
-            <p>Address: {{ restaurant?.address?.freeformAddress }}</p>
-            <p>Website: {{ restaurant?.poi?.url }}</p>
-          </n-collapse-item>
-          <!-- <n-button class="save-bttn" color="#00cc66" @click="saveRestaurant(index)"><font-awesome-icon :icon="['fas', 'check']" /></n-button> -->
-          <!-- <n-button class="not-interested-bttn" type="error" @click="removeRestaurant(index)"><font-awesome-icon :icon="['fas', 'ban']" /></n-button> -->
-        </div>
-      </n-collapse>
+    <div class="cell-header">
+      <h2>Restaurant Recommendations</h2>
     </div>
+    <div class="results">
+      <div v-for="(restaurant, index) in restaurantsToDisplay" class="restaurant-group">
+        <p class="title">{{ restaurant?.poi.name }}</p>
+        <font-awesome-icon :icon="['fas', 'circle-info']" class="icon" @click="showRecommendationDetailModal(index)" />
+        <n-button class="save-bttn" color="#00cc66" @click="saveRestaurant(index)"><font-awesome-icon :icon="['fas', 'check']" /></n-button>
+      </div>
+    </div>
+    <n-modal v-model:show="showDetailModal" class="details-modal">
+      <n-card class="details-card">
+        <div>Name: {{ activeRestaurant?.poi.name }}</div>
+        <div>Phone: {{ activeRestaurant?.poi.phone }}</div>
+        <div>Address: {{ activeRestaurant?.address.freeformAddress }}</div>
+      </n-card>
+    </n-modal>
   </div>
 </template>
 <script>
-import { NButton, NCollapse, NCollapseItem, NTag, NSpin } from "naive-ui";
+import { NButton, NCollapse, NCollapseItem, NTag, NSpin, NModal, NCard } from "naive-ui";
 import { useFetch } from "@vueuse/core";
 import { persistentStore } from "../stores/PersistentStorage.js";
 
 export default {
-  components: { NButton, NCollapse, NCollapseItem, NTag, NSpin },
+  components: { NButton, NCollapse, NCollapseItem, NTag, NSpin, NModal, NCard },
   props: { location: Object },
   data() {
     return {
       restaurantsToDisplay: [],
       restaurantResults: [],
       totalRestaurantResults: null,
+      showDetailModal: false,
+      activeRestaurant: null,
     };
   },
   setup() {
@@ -48,27 +51,26 @@ export default {
     },
   },
   methods: {
+    showRecommendationDetailModal(index) {
+      this.showDetailModal = true;
+      this.activeRestaurant = this.restaurantsToDisplay[index];
+    },
     async getRestaurantRecommendations() {
       if (this.location?.coordinates) {
         let apiKey = import.meta.env.VITE_TOMTOM_API_KEY;
         let categorySet = [7315];
         let limit = 100;
         let offset = 0;
-        // let location = this.store.getLocation;
-        console.log("LOCATION: ", this.location);
         let location = {
           lat: this.location.coordinates.latitude,
           long: this.location.coordinates.longitude,
         };
         let restaurants = await useFetch(`https://api.tomtom.com/search/2/nearbySearch/.json?key=${apiKey}&lat=${location.lat}&lon=${location.long}&categorySet=${categorySet}&limit=${limit}&ofs=${offset}`).then((results) => {
           let jsonResponse = JSON.parse(results.data.value);
-          // let totalResults = jsonResponse.summary.totalResults;
           let resultArray = jsonResponse.results;
           this.restaurantResults = resultArray;
         });
-        // let restaurantArray = await this.getItinerary(this.cityName, mood);
-        // console.log("RESTAURANT: ", this.restaurantResults);
-        // this.restaurantsToDisplay = restaurantArray;
+        this.restaurantsToDisplay = this.restaurantResults;
       }
     },
     updateDisplayedRestaurants() {
@@ -83,8 +85,6 @@ export default {
     },
     removeRestaurant(restaurantIndex) {
       this.restaurantsToDisplay = this.restaurantsToDisplay.filter((restaurant, index) => {
-        console.log(index, restaurantIndex);
-
         return index !== restaurantIndex;
       });
     },
@@ -93,8 +93,11 @@ export default {
 </script>
 <style lang="scss">
 .itinerary_wrapper {
+  position: relative;
+  z-index: 3;
   .results {
     display: flex;
+    color: #fff;
     .no-restaurant-display {
       margin: auto;
       display: flex;
@@ -105,29 +108,14 @@ export default {
         margin-top: 1em;
       }
     }
-    .n-collapse {
-      width: 100%;
-      flex-grow: 1;
-      margin-top: 0.5em;
-      .restaurant-group {
-        display: flex;
-        margin-bottom: 1em;
-        .n-collapse-item {
-          border-radius: 8px;
-          padding: 0.25em;
-          margin-right: auto;
-          flex-grow: 1;
-          .n-collapse-item__header {
-            padding: 0;
-            .n-collapse-item__header-main {
-            }
-          }
-        }
-        .save-bttn {
-          margin: 0 0.5em;
-        }
-        .not-interested-bttn {
-        }
+    .restaurant-group {
+      align-items: center;
+      display: flex;
+      margin-bottom: 0.25em;
+      .icon {
+        margin-left: 1em;
+        margin-right: auto;
+        cursor: pointer;
       }
     }
   }

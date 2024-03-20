@@ -135,62 +135,61 @@ export default {
 };
 </script>
 <style lang="scss">
-.register_wrapper {
-  height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  padding: 2em;
-  background-color: #00cc66;
-  .register-main {
-    border: solid 2px green;
-    padding: 1em;
-    width: 50%;
-    text-shadow: 1px 1px 4px #fff;
-    .primary-header {
-      font-size: 96px;
-    }
-    .secondary-header {
-      font-size: 36px;
-    }
-  }
-  .register-form {
-    min-height: 500px;
-    min-width: 400px;
-    max-width: 400px;
-    border: solid 4px #d90368;
-    border-radius: 12px;
-    background-color: #fff;
-    box-shadow: 6px 12px 12px hsl(0deg 0% 0% / 0.31);
-    padding: 1em;
-    display: flex;
-    flex-direction: column;
-    transition: 0.2s ease;
-    .register-form-header {
-      font-size: 2em;
-    }
-    .input-groups {
-      .input-group {
-        margin: 0.5em;
-      }
-      .required-field-message {
-        color: red;
-        font-size: 0.75em;
-        visibility: hidden;
-      }
-    }
-    .sign-up-bttn {
-      width: fit-content;
-      margin: 1em;
-    }
-    .switch-to-login {
-      margin-top: auto;
-      align-self: center;
-      .login-span {
-        color: #d90368;
-        text-decoration: underline;
-      }
-    }
-  }
-}
+// .register_wrapper {
+//   height: 100vh;
+//   display: flex;
+//   // align-items: center;
+//   justify-content: space-around;
+//   padding: 2em;
+//   background-color: #00cc66;
+//   .register-main {
+//     padding: 1em;
+//     width: 50%;
+//     text-shadow: 1px 1px 4px #fff;
+//     // .primary-header {
+//     //   font-size: 48px;
+//     // }
+//     // .secondary-header {
+//     //   font-size: 36px;
+//     // }
+//   }
+//   .register-form {
+//     min-height: 500px;
+//     min-width: 400px;
+//     max-width: 400px;
+//     border: solid 4px #d90368;
+//     border-radius: 12px;
+//     background-color: #fff;
+//     box-shadow: 6px 12px 12px hsl(0deg 0% 0% / 0.31);
+//     padding: 1em;
+//     display: flex;
+//     flex-direction: column;
+//     transition: 0.2s ease;
+//     .register-form-header {
+//       font-size: 2em;
+//     }
+//     .input-groups {
+//       .input-group {
+//         margin: 0.5em;
+//       }
+//       .required-field-message {
+//         color: red;
+//         font-size: 0.75em;
+//         visibility: hidden;
+//       }
+//     }
+//     .sign-up-bttn {
+//       width: fit-content;
+//       margin: 1em;
+//     }
+//     .switch-to-login {
+//       margin-top: auto;
+//       align-self: center;
+//       .login-span {
+//         color: #d90368;
+//         text-decoration: underline;
+//       }
+//     }
+//   }
+// }
 </style>

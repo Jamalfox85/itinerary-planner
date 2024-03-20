@@ -55,12 +55,8 @@ export default {
       this.email = this.originalEmail;
       this.password = this.originalPassword;
     },
-    deleteProfile() {
-      console.log("DELETE PROFILE");
-    },
-    saveChanges() {
-      console.log("SAVE CHANGES");
-    },
+    deleteProfile() {},
+    saveChanges() {},
   },
   watch: {
     password: async function (newValue, oldValue) {

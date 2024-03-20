@@ -6,18 +6,18 @@ const openai = new OpenAI({
   dangerouslyAllowBrowser: true,
 });
 
-async function getItineraryResponse(location, mood) {
+async function getItineraryResponse(location, price, mood) {
   const completion = await openai.chat.completions.create({
     messages: [
       { role: "system", content: "You are a helpful assistant." },
       { role: "system", content: "You are tasked with assisting a traveler in a new city plan their day." },
-      { role: "system", content: "They will give you a city, and your goal is to respond with 10 potential activities for them to do. Include at least a title and description for each. Include other information as applicable." },
-      { role: "system", content: "A desired price range may be included. For example, if a user wants free actiities, only include free actitivites. If they're comfortable with moderately expensive options, for example 2 out of 3 $ on google, return moderately priced options." },
-      { role: "system", content: "If applicable, please include relevant websites and links." },
-      { role: "system", content: "The user may also includle a 'mood' for the day that should inform you of the kind of activities they're interested in today. For example, if they're in the mood to relax, include more activities for relaxing when possible." },
-      { role: "system", content: "Please format the response into a JSON object array with required properties for title and description, and optional properties for price range, website, and address as applicable." },
+      { role: "system", content: "A user will provide a city, and your goal is to respond with 10 potential activities for them to do in that location." },
+      { role: "system", content: "You should always include a title and description of the activity." },
+      { role: "system", content: "A desired price range may be included. On a scale of 0 to 3 - 0 being free and 3 being the most expensive, activities should meet this criteria. If no price is included, ignore this parameter." },
+      { role: "system", content: "The user may also includle a 'mood' for that should inform you of the kind of activities they're interested in. For example, if they're in the mood to relax, include more activities for relaxing when possible. If no mood is included, ignore this parameter." },
+      { role: "system", content: "Please format the response into a JSON object array with required properties for title, description, price, mood. If no mood is included, give the mood a value of 'adventure', 'relaxation', 'history', 'culture', or null depending on whichever category fits best." },
       { role: "system", content: "Only respond with the JSON object. Do not include any text before or after this object in your response." },
-      { role: "user", content: `I'm planning on visiting ${location}. I'm in the mood for ${mood}. What are some activities you would recommend?` },
+      { role: "user", content: `I'm planning on visiting ${location}. My ideal price range is ${price}. I'm in the mood for ${mood}. What are some activities you would recommend?` },
     ],
     model: "gpt-3.5-turbo",
   });

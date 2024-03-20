@@ -77,7 +77,6 @@ export default {
     await useFetch(`https://v6.exchangerate-api.com/v6/${import.meta.env.VITE_CURRENCY_API_KEY}/latest/${this.startingCurrency}`).then((response) => {
       let parsedResponse = JSON.parse(response.data.value);
       this.conversionRate = parsedResponse.conversion_rates[this.targetCurrency];
-      // console.log("CONVERSION: ", parsedResponse);
     });
   },
   watch: {
