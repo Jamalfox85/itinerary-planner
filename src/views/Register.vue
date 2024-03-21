@@ -111,7 +111,7 @@ export default {
   },
   methods: {
     async registerUser() {
-      const url = "http://localhost:3000/auth/register";
+      const url = `http://${import.meta.env.VITE_BASE_API_URI}/auth/register`;
       const { data, error } = await useFetch(url)
         .post({
           firstName: this.firstName,

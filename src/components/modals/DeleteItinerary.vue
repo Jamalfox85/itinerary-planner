@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     async deleteItinerary() {
-      const url = "http://localhost:3000/itinerary/delete";
+      const url = `http://${import.meta.env.VITE_BASE_API_URI}/itinerary/delete`;
       const token = localStorage.getItem("city-explorer-token");
       let itinerary_id = this.itinerary._id;
       await useFetch(url, {

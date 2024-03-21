@@ -42,7 +42,7 @@ export default {
     };
   },
   async mounted() {
-    const url = "http://localhost:3000/itinerary/itineraries";
+    const url = `http://${import.meta.env.VITE_BASE_API_URI}/itinerary/itineraries`;
     const token = localStorage.getItem("city-explorer-token");
     await useFetch(url, {
       async beforeFetch({ url, options, cancel }) {
