@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     async loginUser() {
-      const url = `https://${import.meta.env.VITE_BASE_API_URI}/auth/login`;
+      const url = `http://${import.meta.env.VITE_BASE_API_URI}/auth/login`;
       const { data, error } = await useFetch(url)
         .post({
           email: this.email,
