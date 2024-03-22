@@ -50,7 +50,7 @@ export default {
       this.selectedLocation = city;
     },
     async submitNewItinerary() {
-      const url = `http://${import.meta.env.VITE_BASE_API_URI}/itinerary/add`;
+      const url = `https://${import.meta.env.VITE_BASE_API_URI}/itinerary/add`;
       axios
         .post(url, {
           user_id: await this.store.getUserData._id,
