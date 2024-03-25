@@ -37,8 +37,9 @@ export const persistentStore = defineStore("persistent", {
           window.$message.success(response.data.value.message);
           this.userData = response.data.value.userData;
         })
-        .catch(() => {
-          window.location = "/login";
+        .catch((error) => {
+          console.log("ERROR: ", error);
+          // window.location = "/login";
         });
     },
     setAccessToken(token) {
