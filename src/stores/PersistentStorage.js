@@ -39,7 +39,7 @@ export const persistentStore = defineStore("persistent", {
         })
         .catch((error) => {
           console.log("ERROR: ", error);
-          // window.location = "/login";
+          window.location = "/login";
         });
     },
     setAccessToken(token) {
