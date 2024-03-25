@@ -18,7 +18,7 @@ export const persistentStore = defineStore("persistent", {
   },
   actions: {
     async setUserData() {
-      const url = `http://${import.meta.env.VITE_BASE_API_URI}/user/profile`;
+      const url = `${import.meta.env.VITE_BASE_API_URI}/user/profile`;
       const token = localStorage.getItem("city-explorer-token");
       await useFetch(url, {
         async beforeFetch({ url, options, cancel }) {

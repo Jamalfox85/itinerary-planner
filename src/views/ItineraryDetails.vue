@@ -56,7 +56,7 @@ export default {
   },
   async mounted() {
     let { itineraryId } = useUrlSearchParams("history");
-    let url = `http://${import.meta.env.VITE_BASE_API_URI}/itinerary/itinerary/${itineraryId}`;
+    let url = `${import.meta.env.VITE_BASE_API_URI}/itinerary/itinerary/${itineraryId}`;
     await useFetch(url).then((response) => {
       let itineraryDetails = JSON.parse(response.data.value);
       this.itineraryDetails = itineraryDetails;
@@ -71,7 +71,7 @@ export default {
       this.tripEnd = end;
     },
     async addActivity(activity) {
-      const url = `http://${import.meta.env.VITE_BASE_API_URI}/itinerary/addActivity`;
+      const url = `${import.meta.env.VITE_BASE_API_URI}/itinerary/addActivity`;
       axios
         .put(url, {
           itinerary_id: this.itineraryDetails._id,
@@ -91,7 +91,7 @@ export default {
         });
     },
     async addRestaurant(restaurant) {
-      const url = `http://${import.meta.env.VITE_BASE_API_URI}/itinerary/addRestaurant`;
+      const url = `${import.meta.env.VITE_BASE_API_URI}/itinerary/addRestaurant`;
       axios
         .put(url, {
           itinerary_id: this.itineraryDetails._id,
@@ -111,7 +111,7 @@ export default {
         });
     },
     async deleteRestaurant(restaurant) {
-      const url = `http://${import.meta.env.VITE_BASE_API_URI}/itinerary/deleteRestaurant`;
+      const url = `${import.meta.env.VITE_BASE_API_URI}/itinerary/deleteRestaurant`;
       axios
         .put(url, {
           itinerary_id: this.itineraryDetails._id,
