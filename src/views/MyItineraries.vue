@@ -10,9 +10,13 @@
       </div>
     </div>
     <div class="itineraries-main" v-if="itineraries.length > 0">
-      <div class="upcoming-trips">
+      <div class="trips-table">
         <h2>Upcoming Trips</h2>
-        <n-data-table :bordered="false" :columns="columns" :data="formattedItineraryData" :pagination="{ pageSize: 5 }" />
+        <n-data-table :bordered="false" :columns="columns" :data="formattedFutureTrips" :pagination="{ pageSize: 5 }" />
+      </div>
+      <div class="trips-table">
+        <h2>Past Trips</h2>
+        <n-data-table :bordered="false" :columns="columns" :data="formattedPastTrips" :pagination="{ pageSize: 5 }" />
       </div>
     </div>
     <div class="empty-state" v-else>
@@ -68,8 +72,35 @@ export default {
     // this.$refs.upcomingTripsNum.value?.play();
   },
   computed: {
-    formattedItineraryData() {
-      let formattedItineraries = this.itineraries.map((itinerary) => {
+    formattedFutureTrips() {
+      let futureTrips = this.itineraries.filter((itinerary) => {
+        let endDate = moment(itinerary.dateRange[1]).format("MMM DD");
+        let today = moment().format("MMM DD");
+        if (moment(endDate).isAfter(today)) {
+          return itinerary;
+        }
+      });
+      let formattedItineraries = futureTrips.map((itinerary) => {
+        let startDate = moment(itinerary.dateRange[0]).format("MMM DD");
+        let endDate = moment(itinerary.dateRange[1]).format("MMM DD");
+        if (startDate != endDate) {
+          itinerary["dates"] = `${startDate} - ${endDate}`;
+        } else {
+          itinerary["dates"] = startDate;
+        }
+        return itinerary;
+      });
+      return formattedItineraries;
+    },
+    formattedPastTrips() {
+      let pastTrips = this.itineraries.filter((itinerary) => {
+        let endDate = moment(itinerary.dateRange[1]).format("MMM DD");
+        let today = moment().format("MMM DD");
+        if (moment(endDate).isBefore(today)) {
+          return itinerary;
+        }
+      });
+      let formattedItineraries = pastTrips.map((itinerary) => {
         let startDate = moment(itinerary.dateRange[0]).format("MMM DD");
         let endDate = moment(itinerary.dateRange[1]).format("MMM DD");
         if (startDate != endDate) {
@@ -187,7 +218,7 @@ export default {
   .itineraries-main {
     flex-grow: 1;
     padding: 1.5em;
-    .upcoming-trips {
+    .trips-table {
       h2 {
         font-size: 1.5em;
         margin-bottom: 1em;

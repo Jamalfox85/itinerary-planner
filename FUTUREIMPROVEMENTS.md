@@ -4,7 +4,6 @@
 
     - Add second list for 'Past' trips
     - Organize lists by due date
-    - Display date on table column
 
 ## Itinerary Details
 
@@ -35,3 +34,4 @@
 
     - When adding Itinerary, update UI immediately
     - When removing Itinerary, update UI immediately
+    - Display date on table column
