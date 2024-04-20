@@ -1,10 +1,5 @@
 # Future Improvements
 
-## My Itineraries
-
-    - Add second list for 'Past' trips
-    - Organize lists by due date
-
 ## Itinerary Details
 
     - Fix Color Palette
@@ -35,3 +30,5 @@
     - When adding Itinerary, update UI immediately
     - When removing Itinerary, update UI immediately
     - Display date on table column
+    - Add second list for 'Past' trips
+    - Organize lists by due date
