@@ -19,8 +19,8 @@
       <p class="empty-text">Add an itinerary for information to populate here!</p>
       <img src="../assets/images/undraw-park.svg" class="undraw-img" />
     </div>
-    <add-itinerary-modal v-if="showAddItineraryModal" @close="showAddItineraryModal = false" />
-    <delete-itinerary-modal v-if="showDeleteItineraryModal" @close="showDeleteItineraryModal = false" :itinerary="activeItinerary" />
+    <add-itinerary-modal v-if="showAddItineraryModal" @newItineraryAdded="newItineraryAdded" @close="showAddItineraryModal = false" />
+    <delete-itinerary-modal v-if="showDeleteItineraryModal" @itineraryDeleted="itineraryDeleted" @close="showDeleteItineraryModal = false" :itinerary="activeItinerary" />
   </div>
 </template>
 <script>
@@ -117,6 +117,14 @@ export default {
           },
         },
       ];
+    },
+  },
+  methods: {
+    newItineraryAdded(itinerary) {
+      this.itineraries.push(itinerary);
+    },
+    itineraryDeleted(itinerary_id) {
+      this.itineraries = this.itineraries.filter((itinerary) => itinerary._id != itinerary_id);
     },
   },
   setup() {

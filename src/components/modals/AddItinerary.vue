@@ -63,6 +63,8 @@ export default {
         })
         .then((response) => {
           window.$message.success("Itinerary Successfully Added");
+          console.log("RESPONSE: ", response);
+          this.$emit("newItineraryAdded", response.data.itinerary);
           this.closeModal();
         })
         .catch((error) => {

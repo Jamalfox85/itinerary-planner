@@ -21,11 +21,6 @@ export default {
   data() {
     return {
       showDeleteItineraryModal: false,
-      addItinerary: {
-        title: "",
-        location: "",
-        dates: "",
-      },
     };
   },
   mounted() {
@@ -51,6 +46,7 @@ export default {
       })
         .delete()
         .json();
+      this.$emit("itineraryDeleted", itinerary_id);
       this.closeModal();
     },
     closeModal() {
