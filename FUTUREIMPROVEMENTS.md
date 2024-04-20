@@ -2,11 +2,9 @@
 
 ## My Itineraries
 
-    - When adding Itinerary, update UI immediately
     - Add second list for 'Past' trips
     - Organize lists by due date
     - Display date on table column
-    - When removing Itinerary, update UI immediately
 
 ## Itinerary Details
 
@@ -32,3 +30,8 @@
     - Edit Profile / Settings
     - Discover
     - Search
+
+## DONE
+
+    - When adding Itinerary, update UI immediately
+    - When removing Itinerary, update UI immediately

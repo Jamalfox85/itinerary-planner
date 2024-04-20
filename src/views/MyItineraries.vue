@@ -12,7 +12,7 @@
     <div class="itineraries-main" v-if="itineraries.length > 0">
       <div class="upcoming-trips">
         <h2>Upcoming Trips</h2>
-        <n-data-table :bordered="false" :columns="columns" :data="itineraries" :pagination="{ pageSize: 5 }" />
+        <n-data-table :bordered="false" :columns="columns" :data="formattedItineraryData" :pagination="{ pageSize: 5 }" />
       </div>
     </div>
     <div class="empty-state" v-else>
@@ -30,6 +30,7 @@ import { useFetch } from "@vueuse/core";
 import { h, defineComponent } from "vue";
 import AddItineraryModal from "../components/modals/AddItinerary.vue";
 import DeleteItineraryModal from "../components/modals/DeleteItinerary.vue";
+import moment from "moment";
 
 export default {
   components: { NModal, NCard, NButton, NInput, NTabs, NTabPane, NDataTable, NSpace, NNumberAnimation, AddItineraryModal, DeleteItineraryModal },
@@ -67,6 +68,19 @@ export default {
     // this.$refs.upcomingTripsNum.value?.play();
   },
   computed: {
+    formattedItineraryData() {
+      let formattedItineraries = this.itineraries.map((itinerary) => {
+        let startDate = moment(itinerary.dateRange[0]).format("MMM DD");
+        let endDate = moment(itinerary.dateRange[1]).format("MMM DD");
+        if (startDate != endDate) {
+          itinerary["dates"] = `${startDate} - ${endDate}`;
+        } else {
+          itinerary["dates"] = startDate;
+        }
+        return itinerary;
+      });
+      return formattedItineraries;
+    },
     columns() {
       const displayDeleteModal = (rowData) => {
         this.showDeleteItineraryModal = true;
