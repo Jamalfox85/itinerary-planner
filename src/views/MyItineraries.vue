@@ -12,11 +12,11 @@
     <div class="itineraries-main" v-if="itineraries.length > 0">
       <div class="trips-table">
         <h2>Upcoming Trips</h2>
-        <n-data-table :bordered="false" :columns="columns" :data="formattedFutureTrips" :pagination="{ pageSize: 5 }" />
+        <n-data-table :bordered="false" :columns="columns" :data="formattedFutureTrips" :pagination="{ pageSize: 7 }" />
       </div>
       <div class="trips-table">
         <h2>Past Trips</h2>
-        <n-data-table :bordered="false" :columns="columns" :data="formattedPastTrips" :pagination="{ pageSize: 5 }" />
+        <n-data-table :bordered="false" :columns="columns" :data="formattedPastTrips" :pagination="{ pageSize: 7 }" />
       </div>
     </div>
     <div class="empty-state" v-else>
@@ -49,14 +49,15 @@ export default {
   async mounted() {
     const url = `${import.meta.env.VITE_BASE_API_URI}/itinerary/itineraries`;
     const token = localStorage.getItem("city-explorer-token");
+    let userId = localStorage.getItem("city-explorer-userId");
     await useFetch(url, {
       async beforeFetch({ url, options, cancel }) {
         if (!token) cancel();
         options.headers = {
           ...options.headers,
           Authorization: `Bearer ${token}`,
-          // user_id: this.store.getUserData._id,
-          user_id: "65c4385cba00d0f2298cbf90",
+          user_id: userId,
+          // user_id: "65c4385cba00d0f2298cbf90",
         };
         return {
           options,
@@ -68,8 +69,6 @@ export default {
         let itineraries = response.data.value.itineraries;
         this.itineraries = itineraries;
       });
-
-    // this.$refs.upcomingTripsNum.value?.play();
   },
   computed: {
     formattedFutureTrips() {

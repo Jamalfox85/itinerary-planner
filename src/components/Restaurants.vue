@@ -87,6 +87,7 @@ export default {
   }
   .results {
     margin-top: 2em;
+    border: solid 2px orange;
     .n-collapse {
       .n-collapse-item {
         &:not(:first-child) {

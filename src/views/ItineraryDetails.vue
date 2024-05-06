@@ -28,7 +28,7 @@
 
         <div class="confirmed-restaurants details-cell">
           <h2>Restaurant List</h2>
-          <restaurant-list :restaurants="itineraryDetails?.restaurants" />
+          <restaurant-list :restaurants="itineraryDetails?.restaurants" @deleteRestaurant="deleteRestaurant" />
         </div>
       </div>
     </div>
@@ -84,6 +84,7 @@ export default {
         })
         .then((response) => {
           window.$message.success("Activity Successfully Added");
+          this.itineraryDetails.activities.push(activity);
         })
         .catch((error) => {
           console.log("ERROR: ", error);
@@ -104,6 +105,8 @@ export default {
         })
         .then((response) => {
           window.$message.success("Restaurant Successfully Added");
+          let addedRestaurant = JSON.parse(response.config.data).restaurant;
+          this.itineraryDetails.restaurants.push(addedRestaurant);
         })
         .catch((error) => {
           console.log("ERROR: ", error);
@@ -119,6 +122,7 @@ export default {
         })
         .then((response) => {
           window.$message.success("Restaurant Successfully Deleted");
+          this.itineraryDetails.restaurants = this.itineraryDetails.restaurants.filter((r) => r.name != restaurant.name);
         })
         .catch((error) => {
           console.log("ERROR: ", error);
@@ -132,6 +136,8 @@ export default {
 .details_wrapper {
   display: flex;
   flex-direction: column;
+  max-height: 100vh;
+  overflow: hidden;
   .details-header {
     height: 100px;
     display: flex;
@@ -149,8 +155,8 @@ export default {
   .details-main {
     display: flex;
     flex-grow: 1;
+    overflow-y: scroll;
     & > * {
-      //   flex-grow: 1;
       width: 50%;
     }
     .details-cell {
@@ -170,12 +176,13 @@ export default {
         overflow: hidden;
       }
       .recommended-activities {
-        // flex-grow: 1;
         border-radius: 12px;
         background-image: url("../assets/images/nature-bg2.jpg");
         background-size: cover;
         position: relative;
         overflow: hidden;
+        min-height: 315px;
+        max-height: 315px;
         &::before {
           background-color: #475b63;
           content: "";
@@ -214,17 +221,18 @@ export default {
       }
 
       .recommended-restaurants {
-        // flex-grow: 1;
-        border: solid 1px #ff6b6b;
+        border: solid 1px #a2e3c4;
         border-radius: 12px;
-        box-shadow: 2px 4px 4px #ff6b6b75;
+        box-shadow: 2px 4px 4px #a2e3c475;
         background-image: url("../assets/images/restaurant-img.jpg");
         background-size: cover;
         background-position: center center;
         position: relative;
         color: #fff;
+        min-height: 315px;
+        max-height: 315px;
         &::before {
-          background-color: #ff6b6b75;
+          background-color: #a2e3c475;
           content: "";
           display: block;
           height: 100%;
@@ -253,13 +261,14 @@ export default {
       }
       .confirmed-activities {
         flex-grow: 1;
-        // max-height: 40%;
         border: solid 1px #d90368;
         border-radius: 12px;
         box-shadow: 2px 4px 4px #d9036875;
         display: flex;
         flex-direction: column;
         background-color: #f1dabf;
+        min-height: 315px;
+        max-height: 315px;
         /* Tab Styles */
         .n-tabs-tab.n-tabs-tab--active {
           color: #d90368;
@@ -267,7 +276,6 @@ export default {
       }
       .confirmed-restaurants {
         flex-grow: 1;
-        // height: 40%;
         border: solid 1px #00cc66;
         border-radius: 12px;
         box-shadow: 2px 4px 4px #00cc6675;
@@ -275,6 +283,8 @@ export default {
         flex-direction: column;
         background-color: #2e2c2f;
         color: #fff;
+        min-height: 315px;
+        max-height: 315px;
         .restaurants {
           display: flex;
           flex-wrap: wrap;

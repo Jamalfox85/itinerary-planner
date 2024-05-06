@@ -5,7 +5,6 @@
         <div class="activities">
           <p v-if="!activities || activities.length == 0">No Activities Selected Yet</p>
           <div v-else class="activity-entry" :class="{ completed: false }" v-for="activity in activities">
-            <n-checkbox class="completed-checkbox" @update:checked="updateCheckbox(activity)" style="--n-color-checked: #d90368; --n-border-checked: 1px solid #d90368; --n-border-focus: #d90368; --n-box-shadow-focus: 0 0 0 2px #d9036825" />
             <p class="title">{{ activity.title }}</p>
             <font-awesome-icon :icon="['fas', 'circle-info']" class="icon" />
           </div>
@@ -114,9 +113,8 @@ export default {
 .activities {
   display: flex;
   flex-direction: column;
-  // flex-wrap: wrap;
-  // height: 100px;
-  overflow-y: scroll;
+  height: 200px;
+  overflow-y: auto;
   .activity-entry {
     flex-grow: 1;
     width: fit-content;

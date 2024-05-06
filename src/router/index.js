@@ -7,7 +7,8 @@ import DashboardView from "../views/Dashboard.vue";
 import ProfileView from "../views/Profile.vue";
 import MyItinerariesView from "../views/MyItineraries.vue";
 import ItineraryDetailsView from "../views/ItineraryDetails.vue";
-import DiscoverView from "../views/Discover.vue";
+import ScheduleView from "../views/Schedule.vue";
+import PlanMyDay from "../views/PlanMyDay.vue";
 
 import DefaultLayout from "../layouts/Blank.vue";
 
@@ -45,9 +46,14 @@ const router = createRouter({
           component: ItineraryDetailsView,
         },
         {
-          path: "discover",
-          name: "discover",
-          component: DiscoverView,
+          path: "schedules",
+          name: "schedules",
+          component: ScheduleView,
+        },
+        {
+          path: "planMyDay",
+          name: "planMyDay",
+          component: PlanMyDay,
         },
       ],
     },

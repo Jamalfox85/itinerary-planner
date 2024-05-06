@@ -1,9 +1,11 @@
 <template lang="">
   <div class="itinerary_wrapper">
-    <div class="cell-header">
+    <div class="cell-header-restaurant-recommendations">
       <h2>Restaurant Recommendations</h2>
+      <n-button color="#a2e3c4" style="color: black" @click="updateDisplayedRestaurants">Refresh</n-button>
     </div>
     <div class="results">
+      <n-spin style="margin-top: 2em" v-if="restaurantsToDisplay.length == 0" />
       <div v-for="(restaurant, index) in restaurantsToDisplay" class="restaurant-group">
         <p class="title">{{ restaurant?.poi.name }}</p>
         <font-awesome-icon :icon="['fas', 'circle-info']" class="icon" @click="showRecommendationDetailModal(index)" />
@@ -95,6 +97,11 @@ export default {
 .itinerary_wrapper {
   position: relative;
   z-index: 3;
+  .cell-header-restaurant-recommendations {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
   .results {
     display: flex;
     color: #fff;
@@ -113,8 +120,8 @@ export default {
       display: flex;
       margin-bottom: 0.25em;
       .icon {
-        margin-left: 1em;
-        margin-right: auto;
+        margin: 0 1em 0 auto;
+
         cursor: pointer;
       }
     }

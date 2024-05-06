@@ -36,6 +36,7 @@ export const persistentStore = defineStore("persistent", {
         .then((response) => {
           window.$message.success(response.data.value.message);
           this.userData = response.data.value.userData;
+          localStorage.setItem("city-explorer-userId", response.data.value.userData._id);
         })
         .catch((error) => {
           console.log("ERROR: ", error);

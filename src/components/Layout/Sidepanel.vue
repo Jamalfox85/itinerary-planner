@@ -17,11 +17,11 @@
         </div>
         <p class="block-label">My Itineraries</p>
       </div>
-      <div class="nav-block">
+      <div class="nav-block" @click="navTo('/schedules')">
         <div class="icon-block">
           <font-awesome-icon :icon="['fas', 'compass']" class="icon" />
         </div>
-        <p class="block-label">Discover</p>
+        <p class="block-label">Schedules</p>
       </div>
       <div class="nav-block">
         <div class="icon-block">
@@ -29,7 +29,7 @@
         </div>
         <p class="block-label">Search</p>
       </div>
-      <div class="nav-block">
+      <div class="nav-block" @click="navTo('/planMyDay')">
         <div class="icon-block">
           <font-awesome-icon :icon="['fas', 'question']" class="icon" />
         </div>

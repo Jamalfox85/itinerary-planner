@@ -10,7 +10,7 @@
     <div class="results">
       <div class="no-activity-display" v-if="activities.length < 1">
         <h3>No Activities To Display</h3>
-        <n-button color="#a2e3c4" @click="getGPTItineraryResponse" class="generate-bttn">Generate Recommendations</n-button>
+        <n-button v-if="!loading" color="#a2e3c4" @click="getGPTItineraryResponse" class="generate-bttn">Generate Recommendations</n-button>
         <n-spin style="margin-top: 2em" v-if="loading" />
       </div>
       <div class="result-list" v-else>
@@ -220,8 +220,7 @@ export default {
         align-items: center;
         padding: 0.5em;
         .icon {
-          margin-left: 1em;
-          margin-right: auto;
+          margin: 0 1em 0 auto;
           transition: 0.1s ease-in;
           &:hover {
             cursor: pointer;
