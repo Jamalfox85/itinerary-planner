@@ -26,49 +26,23 @@ async function getItineraryResponse(location, price, mood) {
   return JSON.parse(itineraryResponse);
 }
 
-// function getItineraryResponse() {
-//   return [
-//     {
-//       title: "Explore Strasbourg Cathedral",
-//       description: "Embark on an adventure by visiting Strasbourg Cathedral, a masterpiece of Gothic architecture offering panoramic views from its tower. Discover intricate carvings and beautiful stained glass windows.",
-//     },
-//     {
-//       title: "Canoeing on the Ill River",
-//       description: "Take an adventurous canoe trip on the Ill River, where you can paddle through the city and enjoy the scenic views of Strasbourg from a unique perspective.",
-//     },
-//     {
-//       title: "Visit La Petite France",
-//       description: "Wander through the charming quarter of La Petite France with its half-timbered houses, canals, and bridges. Explore the narrow streets and soak in the historic ambiance of the area.",
-//     },
-//     {
-//       title: "Strasbourg Boat Tour",
-//       description: "Embark on a boat tour along the picturesque canals of Strasbourg. Experience a different angle of the city while learning about its history and architecture.",
-//     },
-//     {
-//       title: "Explore the Vosges Mountains",
-//       description: "For a thrilling outdoor adventure, head to the Vosges Mountains near Strasbourg. Hike through scenic trails, discover picturesque villages, and enjoy breathtaking views.",
-//     },
-//     {
-//       title: "Visit Parc de l'Orangerie",
-//       description: "Embark on a leisurely adventure in Parc de l'Orangerie, the oldest public park in Strasbourg. Enjoy a relaxing stroll, visit the zoo, or rent a boat for a peaceful ride on the lake.",
-//     },
-//     {
-//       title: "Strasbourg Escape Game",
-//       description: "Challenge yourself with an adventure-themed escape game in Strasbourg. Put your problem-solving skills to the test and work with your team to solve puzzles and escape within a set time.",
-//     },
-//     {
-//       title: "Guided Bike Tour of Strasbourg",
-//       description: "Embark on an adventurous bike tour around Strasbourg with a knowledgeable guide. Pedal through the city's streets, parks, and attractions while learning about its history and culture.",
-//     },
-//     {
-//       title: "Visit Château du Haut-Kœnigsbourg",
-//       description: "Embark on a day trip from Strasbourg to Château du Haut-Kœnigsbourg, a majestic castle nestled in the Vosges Mountains. Explore the castle's ramparts, towers, and scenic surroundings.",
-//     },
-//     {
-//       title: "Hang out at Jardin des Deux Rives",
-//       description: "Engage in outdoor adventures and leisure activities at Jardin des Deux Rives, a park located along the Rhine River. Enjoy walking, cycling, picnicking, or simply taking in the natural beauty.",
-//     },
-//   ];
-// }
+async function getDayPlan(location, date) {
+  const completion = await openai.chat.completions.create({
+    messages: [
+      { role: "system", content: "You are a helpful assistant." },
+      { role: "system", content: "You are tasked with helping a user plan their day in their city." },
+      { role: "system", content: "A user will provide a city, and your goal is to respond with several activities (3-4) for that day." },
+      { role: "system", content: `You should always include a title and start and end time of the activity. The start and end props must be ${date}. The date object is currently in "YY/MM/DD" format.` },
+      { role: "system", content: `BOTH THE SELECTED START AND END PROPERTIES MUST HAVE DATE TIME STRINGS THAT ARE FOR THE CURRENT DATE OF THE CURRENT YEAR. If the current year is 2024, update these date time strings to be for 2024.` },
+      { role: "system", content: "Please format the response into a JSON object array with required properties for title, description, start (datetime string format), and end (datetime string format). " },
+      { role: "system", content: "Only respond with the JSON object. Do not include any text before or after this object in your response." },
+      { role: "user", content: `I'm currently in ${location} and need help planning my day. Can you generate a schedule for my day?` },
+    ],
+    model: "gpt-3.5-turbo",
+  });
 
-export { getItineraryResponse };
+  let scheduleResponse = completion.choices[0].message.content;
+  return JSON.parse(scheduleResponse);
+}
+
+export { getItineraryResponse, getDayPlan };

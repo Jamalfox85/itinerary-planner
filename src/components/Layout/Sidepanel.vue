@@ -8,7 +8,6 @@
         <font-awesome-icon :icon="['fas', 'user']" class="icon" />
       </div>
       <p class="profile-name">{{ userData?.firstName }} {{ userData?.lastName }}</p>
-      <n-button class="edit-profile-button" color="#A2E3C4">Edit Profile</n-button>
     </div>
     <div class="sidepanel-main">
       <div class="nav-block" :class="{ active: pagePath == '/myitineraries' }" @click="navTo('/myitineraries')">
@@ -22,12 +21,6 @@
           <font-awesome-icon :icon="['fas', 'compass']" class="icon" />
         </div>
         <p class="block-label">Schedules</p>
-      </div>
-      <div class="nav-block">
-        <div class="icon-block">
-          <font-awesome-icon :icon="['fas', 'magnifying-glass-location']" class="icon" />
-        </div>
-        <p class="block-label">Search</p>
       </div>
       <div class="nav-block" @click="navTo('/planMyDay')">
         <div class="icon-block">

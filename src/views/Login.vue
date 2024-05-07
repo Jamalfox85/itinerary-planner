@@ -93,7 +93,6 @@ export default {
   position: absolute;
   height: 100%;
   width: 100%;
-  border: solid 2px green;
   .plane-graphic {
     height: 6px;
     width: 6px;

@@ -42,7 +42,6 @@ export default {
   overflow-y: scroll;
   .dashboard-main {
     width: 100%;
-    border: solid 8px purple;
     display: grid;
     grid-template-rows: 4;
     grid-template-columns: 4;

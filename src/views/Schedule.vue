@@ -83,7 +83,6 @@ export default {
 </script>
 <style lang="scss">
 .schedule_page_wrapper {
-  border: solid 2px red;
   padding: 2em;
   .schedule-page-header {
     display: flex;
