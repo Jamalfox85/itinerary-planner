@@ -43,8 +43,10 @@ export default {
     },
     async getGPTResults() {
       console.log("CITY: ", this.selectedLocation);
-      let today = moment().format("YY/MM/DD");
-      let dayPlan = await getDayPlan(this.selectedLocation.name, today);
+      let today = moment().format("MM/DD/YY");
+      let year = moment().format("YYYY");
+      console.log("YEAR: ", year);
+      let dayPlan = await getDayPlan(this.selectedLocation.name, today, year);
       this.$emit("gptResults", dayPlan);
       this.closeModal();
     },

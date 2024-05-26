@@ -1,13 +1,10 @@
 <template lang="">
-  <div class="register_wrapper">
-    <!-- <div class="plane-graphics">
-      <div class="plane-graphic" v-for="plane in 10" :style="{ left: randomizeCoordinates.xPos }"></div>
-    </div> -->
-    <div class="register-main">
+  <div class="login_wrapper">
+    <div class="login_page_header">
       <h1 class="primary-header">Wander Wise</h1>
       <h2 class="secondary-header">Seamlessly Organize, Effortlessly Explore</h2>
     </div>
-    <div class="register-form">
+    <div class="login_page_main">
       <h2 class="register-form-header">Log In Now</h2>
       <div class="input-groups">
         <div class="input-group">
@@ -88,19 +85,8 @@ export default {
   },
 };
 </script>
-<style lang="scss">
-.plane-graphics {
-  position: absolute;
-  height: 100%;
-  width: 100%;
-  .plane-graphic {
-    height: 6px;
-    width: 6px;
-    background-color: blue;
-    position: absolute;
-  }
-}
-.register_wrapper {
+<style lang="scss" scoped>
+.login_wrapper {
   min-height: 100vh;
   display: flex;
   // align-items: center;
@@ -118,7 +104,7 @@ export default {
     width: 100%;
     top: 0;
   }
-  .register-main {
+  .login_page_header {
     padding: 1em;
     width: 50%;
     text-align: center;
@@ -133,7 +119,7 @@ export default {
       font-size: 24px;
     }
   }
-  .register-form {
+  .login_page_main {
     min-height: 500px;
     min-width: 400px;
     max-width: 400px;
@@ -170,6 +156,7 @@ export default {
     .switch-to-login {
       margin-top: auto;
       align-self: center;
+      cursor: pointer;
       .login-span {
         color: #000;
         text-decoration: underline;
@@ -182,11 +169,11 @@ export default {
 }
 
 @media screen and (max-width: 1000px) {
-  .register_wrapper {
+  .login_wrapper {
     flex-direction: column;
     align-items: center;
     justify-content: initial;
-    .register-main {
+    .login_page_header {
       width: 100%;
       margin-bottom: 2em;
       .primary-header {
@@ -203,9 +190,9 @@ export default {
 }
 
 @media screen and (max-width: 600px) {
-  .register_wrapper {
+  .login_wrapper {
     // padding: none;
-    .register-main {
+    .login_page_header {
       .primary-header {
         font-size: 48px;
       }

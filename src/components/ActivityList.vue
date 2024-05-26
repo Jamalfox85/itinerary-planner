@@ -6,7 +6,6 @@
           <p v-if="!activities || activities.length == 0">No Activities Selected Yet</p>
           <div v-else class="activity-entry" :class="{ completed: false }" v-for="activity in activities">
             <p class="title">{{ activity.title }}</p>
-            <font-awesome-icon :icon="['fas', 'circle-info']" class="icon" />
           </div>
         </div>
       </n-tab-pane>

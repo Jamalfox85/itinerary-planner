@@ -26,14 +26,14 @@ async function getItineraryResponse(location, price, mood) {
   return JSON.parse(itineraryResponse);
 }
 
-async function getDayPlan(location, date) {
+async function getDayPlan(location, date, year) {
   const completion = await openai.chat.completions.create({
     messages: [
       { role: "system", content: "You are a helpful assistant." },
       { role: "system", content: "You are tasked with helping a user plan their day in their city." },
       { role: "system", content: "A user will provide a city, and your goal is to respond with several activities (3-4) for that day." },
       { role: "system", content: `You should always include a title and start and end time of the activity. The start and end props must be ${date}. The date object is currently in "YY/MM/DD" format.` },
-      { role: "system", content: `BOTH THE SELECTED START AND END PROPERTIES MUST HAVE DATE TIME STRINGS THAT ARE FOR THE CURRENT DATE OF THE CURRENT YEAR. If the current year is 2024, update these date time strings to be for 2024.` },
+      { role: "system", content: `BOTH THE SELECTED START AND END PROPERTIES MUST HAVE DATE TIME STRINGS THAT ARE FOR THE CURRENT DATE for the year ${year}.` },
       { role: "system", content: "Please format the response into a JSON object array with required properties for title, description, start (datetime string format), and end (datetime string format). " },
       { role: "system", content: "Only respond with the JSON object. Do not include any text before or after this object in your response." },
       { role: "user", content: `I'm currently in ${location} and need help planning my day. Can you generate a schedule for my day?` },

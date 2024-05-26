@@ -15,17 +15,10 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import GetDayModal from "../components/modals/GetDayModal.vue";
-
-// import { getDayPlan } from "../services/openai_service.js";
 import moment from "moment";
 
 export default {
   components: { FullCalendar, GetDayModal },
-  // async mounted() {
-  //   let today = moment().format("MM/DD/YY");
-  //   let dayPlan = await getDayPlan("Atlanta", today);
-  //   this.calendarOptions.events = dayPlan;
-  // },
   data() {
     return {
       getDayModal: true,
@@ -37,14 +30,16 @@ export default {
           center: "title",
           right: "timeGridDay",
         },
-        events: [],
       },
     };
   },
   methods: {
     receivedGptResults(results) {
-      console.log("RESULTS: ", results);
       this.calendarOptions.events = results;
+      let formattedEvents = results.map((event) => {
+        event.start = moment(event.start).format();
+        event.end = moment(event.end).format();
+      });
     },
     closeModal() {
       this.getDayModal = false;
@@ -54,7 +49,6 @@ export default {
 </script>
 <style lang="scss">
 .planMyDay_wrapper {
-  border: solid 4px blue;
   padding: 2em;
   .page-main {
   }
